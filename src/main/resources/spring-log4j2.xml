@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 日志级别：OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL (只打印比当前级别高的日志)-->
+<!--
+    Configuration 属性配置
+    status: 用于设置log4j2自身内部的信息输出,可以不设置,当设置成trace时,会看到log4j2内部各种详细输出
+    monitorInterval: Log4j能够自动检测修改配置文件和重新配置本身, 设置间隔秒数。此处表示每隔180秒重读一次配置文件
+-->
+<Configuration monitorInterval="180">
+
+    <properties>
+        <!-- 日志放置文件名 -->
+        <property name="logdir">logs</property>
+        <!-- 打印格式 -->
+        <!--
+                %d{yyyy-MM-dd HH:mm:ss.SSS} : 日志生产时间,输出到毫秒的时间
+                %-5level : 输出日志级别，-5表示左对齐并且固定输出5个字符，如果不足在右边补0
+                %c : logger的名称(%logger)
+                %t : 输出当前线程名称
+                %p : 日志输出格式
+                %m : 日志内容，即 logger.info("message")
+                %n : 换行符
+                %C : Java类名(%F)
+                %L : 行号
+                %M : 方法名
+                %l : 输出语句所在的行数, 包括类名、方法名、文件名、行数
+                %file : 文件名
+                hostName : 本地机器名
+                hostAddress : 本地ip地址
+         -->
+        <property name="PATTERN">%date{YYYY-MM-dd HH:mm:ss.SSS} %-5level [%thread][%file:%line] - %msg%n%throwable</property>
+    </properties>
+
+    <Appenders>
+        <!-- 控制台输出配置 -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${PATTERN}"/>
+        </Console>
+
+        <!-- 打印 ERROR 及以上级别的日志配置 -->
+        <RollingFile name="ErrorAppender" fileName="${logdir}/error.log"
+            filePattern="${logdir}/$${date:yyyy-MM-dd}/error.%d{yyyy-MM-dd}.log" append="true">
+            <!-- 打印格式 -->
+            <PatternLayout pattern="${PATTERN}"/>
+            <!-- 只打印level及以上级别的信息，其他的直接拒绝 -->
+            <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            <!-- 生成新文件的策略 -->
+            <Policies>
+                <!-- 根据 filePattern 的最少颗粒度生成新文件，这里最小颗粒度到 dd，也就是一天生成一个新文件-->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+        </RollingFile>
+
+        <!-- 打印 DEBUG 及以上级别的日志配置 -->
+        <RollingFile name="DebugAppender" fileName="${logdir}/info.log"
+            filePattern="${logdir}/$${date:yyyy-MM-dd}/info.%d{yyyy-MM-dd-HH}.log" append="true">
+            <PatternLayout pattern="${PATTERN}"/>
+            <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+        </RollingFile>
+        
+        <!-- 配置异步打印日志 -->
+         <Async name="AsyncAppender" includeLocation="true">
+            <AppenderRef ref="ErrorAppender"/>
+            <AppenderRef ref="DebugAppender"/>
+        </Async>
+    </Appenders>
+    
+    <Loggers>
+        <!-- 单独指定日志级别，只有定义了logger并引入的appender，appender才会生效 -->
+        <logger name="org.springframework" level="INFO">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="DebugAppender"/>
+        </logger>
+        <logger name="org.mybatis" level="INFO">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="DebugAppender"/>
+        </logger>
+        <!-- 统一指定日志级别 -->
+        <Root level="DEBUG" includeLocation="true">
+            <AppenderRef ref="AsyncAppender"/>
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="DebugAppender"/>
+        </Root>
+    </Loggers>
+
+</Configuration>

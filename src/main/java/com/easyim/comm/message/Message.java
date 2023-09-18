@@ -1,0 +1,53 @@
+package com.easyim.comm.message;
+
+import com.easyim.comm.message.dialog.DeleteDialogRequestMessage;
+import com.easyim.comm.message.dialog.DialogNoticeRequestMessage;
+import com.easyim.comm.message.dialog.DialogNoticeResponseMessage;
+import com.easyim.comm.message.friend.AddFriendRequestMessage;
+import com.easyim.comm.message.friend.AddFriendResponseMessage;
+import com.easyim.comm.message.friend.SearchFriendRequestMessage;
+import com.easyim.comm.message.friend.SearchFriendResponseMessage;
+import com.easyim.comm.message.login.LoginRequestMessage;
+import com.easyim.comm.message.login.LoginResponseMessage;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+/**
+ * 消息基础类
+ *
+ * @author 单程车票
+ */
+public abstract class Message {
+
+    private final static Map<Byte, Class<? extends Message>> messageType = new ConcurrentHashMap<>();
+
+    static {
+        messageType.put(MessageTypeConstants.LoginRequestMessage, LoginRequestMessage.class);
+        messageType.put(MessageTypeConstants.LoginResponseMessage, LoginResponseMessage.class);
+//        packetType.put(Command.MsgRequest, MsgRequest.class);
+//        packetType.put(Command.MsgResponse, MsgResponse.class);
+        messageType.put(MessageTypeConstants.DialogNoticeRequestMessage, DialogNoticeRequestMessage.class);
+        messageType.put(MessageTypeConstants.DialogNoticeResponseMessage, DialogNoticeResponseMessage.class);
+        messageType.put(MessageTypeConstants.SearchFriendRequestMessage, SearchFriendRequestMessage.class);
+        messageType.put(MessageTypeConstants.SearchFriendResponseMessage, SearchFriendResponseMessage.class);
+        messageType.put(MessageTypeConstants.AddFriendRequestMessage, AddFriendRequestMessage.class);
+        messageType.put(MessageTypeConstants.AddFriendResponseMessage, AddFriendResponseMessage.class);
+        messageType.put(MessageTypeConstants.DeleteDialogRequestMessage, DeleteDialogRequestMessage.class);
+//        packetType.put(Command.MsgGroupRequest, MsgGroupRequest.class);
+//        packetType.put(Command.MsgGroupResponse, MsgGroupResponse.class);
+//        packetType.put(Command.ReconnectRequest, ReconnectRequest.class);
+    }
+
+    public static Class<? extends Message> get(Byte constant) {
+        return messageType.get(constant);
+    }
+
+    /**
+     * 获取消息类型常量
+     *
+     * @return 返回消息类型常量
+     */
+    public abstract Byte getConstant();
+
+}

@@ -1,5 +1,7 @@
 package com.easyim.comm.message;
 
+import com.easyim.comm.message.login.LoginRequestMessage;
+
 /**
  * 消息类型
  *
@@ -7,6 +9,7 @@ package com.easyim.comm.message;
  */
 public interface MessageTypeConstants {
 
+    Byte GlobalErrorResponseMessage = 0;
     Byte LoginRequestMessage = 1;
     Byte LoginResponseMessage = 2;
     Byte AddFriendRequestMessage = 3;

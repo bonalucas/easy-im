@@ -4,7 +4,7 @@ import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.easyim.dal.dataobject.FriendDO;
 import com.easyim.dal.mapper.FriendMapper;
-import com.easyim.common.CustomException;
+import com.easyim.common.ServiceException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,7 +40,7 @@ public class FriendServiceImpl implements FriendService {
         queryWrapper.eq(StringUtils.isNotEmpty(userId), FriendDO::getUserId, userId)
                 .eq(StringUtils.isNotEmpty(friendId), FriendDO::getFriendId, friendId);
         FriendDO isExist = friendMapper.selectOne(queryWrapper);
-        if (isExist == null) throw new CustomException("好友已存在");
+        if (isExist == null) throw new ServiceException("好友已存在");
         // 添加好友
         friendMapper.insert(new FriendDO(null, userId, friendId, DateUtil.date()));
         friendMapper.insert(new FriendDO(null, friendId, userId, DateUtil.date()));

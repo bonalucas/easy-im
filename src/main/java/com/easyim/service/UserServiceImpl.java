@@ -4,7 +4,7 @@ import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.easyim.dal.dataobject.UserDO;
 import com.easyim.dal.mapper.UserMapper;
-import com.easyim.common.CustomException;
+import com.easyim.common.ServiceException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService{
         LambdaQueryWrapper<UserDO> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(StringUtils.isNotEmpty(userId), UserDO::getUserId, userId);
         UserDO isExist = userMapper.selectOne(queryWrapper);
-        if (isExist != null) throw new CustomException("该账号已被注册");
+        if (isExist != null) throw new ServiceException("该账号已被注册");
         // 创建用户对象并入库
         UserDO user = new UserDO(null, userId, userNickname, userAvatar, userPassword, DateUtil.date());
         userMapper.insert(user);
@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService{
         LambdaQueryWrapper<UserDO> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(StringUtils.isNotEmpty(userId), UserDO::getUserId, userId);
         UserDO user = userMapper.selectOne(queryWrapper);
-        if (user == null) throw new CustomException("该账号不存在");
+        if (user == null) throw new ServiceException("该账号不存在");
         return userPassword.equals(user.getUserPassword());
     }
 

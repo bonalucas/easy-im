@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 /**
- * 编解码器
+ * 自定义编解码器
  *
  * @author 单程车票
  */

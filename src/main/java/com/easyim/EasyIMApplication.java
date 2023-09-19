@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -25,9 +26,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class EasyIMApplication implements CommandLineRunner {
 
     @Autowired
-    private ThreadPoolExecutor executor;
-
-    @Autowired
     private NettyServer nettyServer;
 
     public static void main(String[] args) {
@@ -40,15 +38,15 @@ public class EasyIMApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         log.info("NettyServer 启动中...");
-        Future<Channel> future = executor.submit(nettyServer);
-        Channel channel = future.get();
-        if (null == channel) {
+        Channel channel = nettyServer.startServer();
+        if (channel == null) {
             throw new RuntimeException("NettyServer 启动失败 => Channel is null");
         }
         while (!channel.isActive()) {
-            log.info("NettyServer 启动中...");
+            log.info("NettyServer 尝试再次启动...");
             Thread.sleep(500);
         }
         log.info("NettyServer 启动成功 => Channel：{}", channel.localAddress());
     }
+
 }

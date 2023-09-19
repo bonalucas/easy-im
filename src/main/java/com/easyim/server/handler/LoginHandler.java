@@ -7,6 +7,7 @@ import com.easyim.comm.message.login.dto.DialogDto;
 import com.easyim.comm.message.login.dto.FriendDto;
 import com.easyim.comm.message.login.dto.RecordDto;
 import com.easyim.common.Constants;
+import com.easyim.common.ServiceException;
 import com.easyim.convert.DialogConvert;
 import com.easyim.convert.FriendConvert;
 import com.easyim.convert.GroupConvert;
@@ -54,11 +55,7 @@ public class LoginHandler extends BaseHandler<LoginRequestMessage> {
     public void channelRead(Channel channel, LoginRequestMessage msg) {
         log.info("登录消息处理请求：{} ", JSON.toJSONString(msg));
         boolean auth = userService.loginAuth(msg.getUserId(), msg.getUserPassword());
-        if (!auth) {
-            // 登录失败封装结果并返回
-            channel.writeAndFlush(new LoginResponseMessage(false));
-            return;
-        }
+        if (!auth) throw new ServiceException("登录认证失败");
         // 登录成功加入缓存
         SocketChannelUtil.addChannel(msg.getUserId(), channel);
         // 绑定群组
@@ -67,7 +64,7 @@ public class LoginHandler extends BaseHandler<LoginRequestMessage> {
             SocketChannelUtil.addGroup(groupId, channel);
         }
         // 封装反馈信息
-        LoginResponseMessage loginResponse = new LoginResponseMessage(true);
+        LoginResponseMessage loginResponse = new LoginResponseMessage();
         // 查询用户信息并填充结果
         UserDO user = userService.queryUser(msg.getUserId());
         loginResponse.setUserId(user.getUserId());

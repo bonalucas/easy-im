@@ -5,9 +5,9 @@ package com.easyim.common;
  *
  * @author 单程车票
  */
-public class CustomException extends RuntimeException{
+public class ServiceException extends RuntimeException{
 
-    public CustomException(String message) {
+    public ServiceException(String message) {
         super(message);
     }
 }

@@ -1,5 +1,7 @@
 package com.easyim.server.handler;
 
+import com.easyim.comm.message.error.GlobalErrorResponseMessage;
+import com.easyim.common.ServiceException;
 import com.easyim.server.util.SocketChannelUtil;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -37,8 +39,13 @@ public abstract class BaseHandler<T> extends SimpleChannelInboundHandler<T> {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        SocketChannelUtil.removeChannelByChannelId(ctx.channel().id().toString());
-        SocketChannelUtil.removeAllGroup(ctx.channel());
-        log.error("服务器异常断开连接：{}", cause.getMessage());
+        if (cause instanceof ServiceException) {
+            log.info("业务异常：{}", cause.getMessage());
+            ctx.channel().writeAndFlush(new GlobalErrorResponseMessage(cause.getMessage()));
+        } else {
+            SocketChannelUtil.removeChannelByChannelId(ctx.channel().id().toString());
+            SocketChannelUtil.removeAllGroup(ctx.channel());
+            log.error("服务器异常断开连接：{}", cause.getMessage());
+        }
     }
 }

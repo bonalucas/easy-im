@@ -21,7 +21,7 @@ import java.util.concurrent.Callable;
  */
 @Slf4j
 @Component("nettyServer")
-public class NettyServer implements Callable<Channel> {
+public class NettyServer {
 
     private final EventLoopGroup connectionGroup = new NioEventLoopGroup(2);
     private final EventLoopGroup workerGroup = new NioEventLoopGroup();
@@ -33,8 +33,7 @@ public class NettyServer implements Callable<Channel> {
     @Autowired
     private ServerChannelInitializer serverChannelInitializer;
 
-    @Override
-    public Channel call() throws Exception {
+    public Channel startServer() {
         ChannelFuture channelFuture = null;
         try {
             ServerBootstrap bootstrap = new ServerBootstrap();
@@ -45,12 +44,10 @@ public class NettyServer implements Callable<Channel> {
             channelFuture = bootstrap.bind(new InetSocketAddress(nettyProperties.getIp(), nettyProperties.getPort())).syncUninterruptibly();
             this.channel = channelFuture.channel();
         } catch (Exception e) {
-            log.error("服务器启动异常：{}", e.getMessage());
+            log.error("Netty 服务器启动异常：{}", e.getMessage());
         } finally {
-            if (null != channelFuture && channelFuture.isSuccess()) {
-                log.info("服务器启动成功");
-            } else {
-                log.error("服务器启动失败");
+            if (null == channelFuture || !channelFuture.isSuccess()) {
+                log.error("Netty 服务器启动失败");
             }
         }
         return channel;

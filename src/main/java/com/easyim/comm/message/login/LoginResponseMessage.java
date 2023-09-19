@@ -25,11 +25,6 @@ import java.util.List;
 public class LoginResponseMessage extends Message {
 
     /**
-     * 登录反馈
-     */
-    private boolean success;
-
-    /**
      * 用户ID
      */
     private String userId;
@@ -58,10 +53,6 @@ public class LoginResponseMessage extends Message {
      * 好友列表
      */
     private List<FriendDto> friendList;
-
-    public LoginResponseMessage(boolean success) {
-        this.success = success;
-    }
 
     @Override
     public Byte getConstant() {

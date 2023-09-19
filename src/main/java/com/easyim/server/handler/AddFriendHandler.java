@@ -3,6 +3,7 @@ package com.easyim.server.handler;
 import com.alibaba.fastjson.JSON;
 import com.easyim.comm.message.friend.AddFriendRequestMessage;
 import com.easyim.comm.message.friend.AddFriendResponseMessage;
+import com.easyim.common.ServiceException;
 import com.easyim.dal.dataobject.UserDO;
 import com.easyim.server.util.SocketChannelUtil;
 import com.easyim.service.FriendService;
@@ -37,7 +38,7 @@ public class AddFriendHandler extends BaseHandler<AddFriendRequestMessage> {
         channel.writeAndFlush(new AddFriendResponseMessage(friend.getUserId(), friend.getUserNickname(), friend.getUserAvatar()));
         // 推送回好友
         Channel friendChannel = SocketChannelUtil.getChannel(msg.getFriendId());
-        if (null == friendChannel) return;
+        if (friendChannel == null) throw new ServiceException("用户处于离线状态");
         UserDO user = userService.queryUser(msg.getUserId());
         friendChannel.writeAndFlush(new AddFriendResponseMessage(user.getUserId(), user.getUserNickname(), user.getUserAvatar()));
     }

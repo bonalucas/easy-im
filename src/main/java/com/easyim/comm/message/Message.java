@@ -5,6 +5,7 @@ import com.easyim.comm.message.chat.ChatResponseMessage;
 import com.easyim.comm.message.dialog.DeleteDialogRequestMessage;
 import com.easyim.comm.message.dialog.DialogNoticeRequestMessage;
 import com.easyim.comm.message.dialog.DialogNoticeResponseMessage;
+import com.easyim.comm.message.error.GlobalErrorResponseMessage;
 import com.easyim.comm.message.friend.AddFriendRequestMessage;
 import com.easyim.comm.message.friend.AddFriendResponseMessage;
 import com.easyim.comm.message.friend.SearchFriendRequestMessage;
@@ -25,6 +26,7 @@ public abstract class Message {
     private final static Map<Byte, Class<? extends Message>> messageType = new ConcurrentHashMap<>();
 
     static {
+        messageType.put(MessageTypeConstants.GlobalErrorResponseMessage, GlobalErrorResponseMessage.class);
         messageType.put(MessageTypeConstants.LoginRequestMessage, LoginRequestMessage.class);
         messageType.put(MessageTypeConstants.LoginResponseMessage, LoginResponseMessage.class);
         messageType.put(MessageTypeConstants.DialogNoticeRequestMessage, DialogNoticeRequestMessage.class);

@@ -1,5 +1,7 @@
 package com.easyim.comm.message;
 
+import com.easyim.comm.message.chat.ChatRequestMessage;
+import com.easyim.comm.message.chat.ChatResponseMessage;
 import com.easyim.comm.message.dialog.DeleteDialogRequestMessage;
 import com.easyim.comm.message.dialog.DialogNoticeRequestMessage;
 import com.easyim.comm.message.dialog.DialogNoticeResponseMessage;
@@ -25,17 +27,15 @@ public abstract class Message {
     static {
         messageType.put(MessageTypeConstants.LoginRequestMessage, LoginRequestMessage.class);
         messageType.put(MessageTypeConstants.LoginResponseMessage, LoginResponseMessage.class);
-//        packetType.put(Command.MsgRequest, MsgRequest.class);
-//        packetType.put(Command.MsgResponse, MsgResponse.class);
         messageType.put(MessageTypeConstants.DialogNoticeRequestMessage, DialogNoticeRequestMessage.class);
         messageType.put(MessageTypeConstants.DialogNoticeResponseMessage, DialogNoticeResponseMessage.class);
+        messageType.put(MessageTypeConstants.DeleteDialogRequestMessage, DeleteDialogRequestMessage.class);
         messageType.put(MessageTypeConstants.SearchFriendRequestMessage, SearchFriendRequestMessage.class);
         messageType.put(MessageTypeConstants.SearchFriendResponseMessage, SearchFriendResponseMessage.class);
         messageType.put(MessageTypeConstants.AddFriendRequestMessage, AddFriendRequestMessage.class);
         messageType.put(MessageTypeConstants.AddFriendResponseMessage, AddFriendResponseMessage.class);
-        messageType.put(MessageTypeConstants.DeleteDialogRequestMessage, DeleteDialogRequestMessage.class);
-//        packetType.put(Command.MsgGroupRequest, MsgGroupRequest.class);
-//        packetType.put(Command.MsgGroupResponse, MsgGroupResponse.class);
+        messageType.put(MessageTypeConstants.ChatRequestMessage, ChatRequestMessage.class);
+        messageType.put(MessageTypeConstants.ChatResponseMessage, ChatResponseMessage.class);
 //        packetType.put(Command.ReconnectRequest, ReconnectRequest.class);
     }
 

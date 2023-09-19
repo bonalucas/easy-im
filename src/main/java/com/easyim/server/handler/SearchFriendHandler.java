@@ -37,7 +37,7 @@ public class SearchFriendHandler extends BaseHandler<SearchFriendRequestMessage>
     @Override
     public void channelRead(Channel channel, SearchFriendRequestMessage msg) {
         // TODO 后期优化 - 创建添加好友申请表（目前只要有一方添加好友则可添加成功，无需等待对方同意）
-        log.info("搜索好友请求处理：{}", JSON.toJSONString(msg));
+        log.info("查找好友消息处理请求：{}", JSON.toJSONString(msg));
         List<UserDto> userDtoList = new ArrayList<>();
         List<UserDO> userDOList = userService.queryUserByNickname(msg.getSearchKey());
         Set<String> existFriend = new HashSet<>(friendService.queryFriendList(msg.getUserId()));

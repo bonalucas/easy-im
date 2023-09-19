@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * 聊天记录业务实现类
@@ -21,6 +22,9 @@ public class RecordServiceImpl implements RecordService {
 
     @Autowired
     private RecordMapper recordMapper;
+
+    @Autowired
+    private ThreadPoolExecutor executor;
 
     @Override
     public List<RecordDO> queryRecordList(String dialogId) {
@@ -38,7 +42,9 @@ public class RecordServiceImpl implements RecordService {
 
     @Override
     public void saveRecord(String dialogId, String senderId, String content) {
-        RecordDO record = new RecordDO(null, dialogId, senderId, content, DateUtil.date());
-        recordMapper.insert(record);
+        executor.execute(() -> {
+            RecordDO record = new RecordDO(null, dialogId, senderId, content, DateUtil.date());
+            recordMapper.insert(record);
+        });
     }
 }

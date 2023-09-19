@@ -52,7 +52,7 @@ public class LoginHandler extends BaseHandler<LoginRequestMessage> {
 
     @Override
     public void channelRead(Channel channel, LoginRequestMessage msg) {
-        log.info("登录请求处理：{} ", JSON.toJSONString(msg));
+        log.info("登录消息处理请求：{} ", JSON.toJSONString(msg));
         boolean auth = userService.loginAuth(msg.getUserId(), msg.getUserPassword());
         if (!auth) {
             // 登录失败封装结果并返回

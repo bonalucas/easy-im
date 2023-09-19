@@ -2,8 +2,7 @@ package com.easyim.dal.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.easyim.dal.dataobject.GroupDO;
-import org.mapstruct.Mapper;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 群组 Mapper
@@ -11,6 +10,5 @@ import org.springframework.stereotype.Repository;
  * @author 单程车票
  */
 @Mapper
-@Repository
 public interface GroupMapper extends BaseMapper<GroupDO> {
 }

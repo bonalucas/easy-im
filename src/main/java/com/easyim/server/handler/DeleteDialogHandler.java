@@ -22,7 +22,7 @@ public class DeleteDialogHandler extends BaseHandler<DeleteDialogRequestMessage>
 
     @Override
     public void channelRead(Channel channel, DeleteDialogRequestMessage msg) {
-        log.info("接收删除对话请求：{}", JSON.toJSONString(msg));
+        log.info("删除对话消息处理请求：{}", JSON.toJSONString(msg));
         dialogService.deleteDialog(msg.getDialogId());
     }
 }

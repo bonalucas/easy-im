@@ -25,4 +25,4 @@ thread:
 # netty 配置
 netty:
   ip: 127.0.0.1
-  port: 7397
+  port: 8086

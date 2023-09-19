@@ -4,8 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.easyim.comm.message.login.dto.RecordDto;
 import com.easyim.dal.dataobject.RecordDO;
 import org.apache.ibatis.annotations.Param;
-import org.mapstruct.Mapper;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
@@ -15,7 +14,6 @@ import java.util.List;
  * @author 单程车票
  */
 @Mapper
-@Repository
 public interface RecordMapper extends BaseMapper<RecordDO> {
 
     List<RecordDto> selectDtoList(@Param("dialogId") String dialogId);

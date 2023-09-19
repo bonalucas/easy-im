@@ -16,5 +16,7 @@ public interface MessageTypeConstants {
     Byte DeleteDialogRequestMessage = 7;
     Byte DialogNoticeRequestMessage = 8;
     Byte DialogNoticeResponseMessage = 9;
+    Byte ChatRequestMessage = 10;
+    Byte ChatResponseMessage = 11;
 
 }

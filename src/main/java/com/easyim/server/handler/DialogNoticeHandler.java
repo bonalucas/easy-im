@@ -33,7 +33,7 @@ public class DialogNoticeHandler extends BaseHandler<DialogNoticeRequestMessage>
 
     @Override
     public void channelRead(Channel channel, DialogNoticeRequestMessage msg) {
-        log.info("对话通知应答处理：{}", JSON.toJSONString(msg));
+        log.info("对话通知消息处理请求：{}", JSON.toJSONString(msg));
         if (Objects.equals(Constants.DialogType.SINGLE_CHAT.getCode(), msg.getDialogType())) {
             // 消息落库
             dialogService.createSingleChatDialog(msg.getSenderId(), msg.getReceiverId());
@@ -50,7 +50,7 @@ public class DialogNoticeHandler extends BaseHandler<DialogNoticeRequestMessage>
             // 获取好友通信管道
             Channel friendChannel = SocketChannelUtil.getChannel(msg.getReceiverId());
             if (null == friendChannel) {
-                log.info("用户 {} 未上线", msg.getReceiverId());
+                log.info("用户 {} 处于离线状态", msg.getReceiverId());
                 return;
             }
             friendChannel.writeAndFlush(response);

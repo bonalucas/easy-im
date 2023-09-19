@@ -1,5 +1,6 @@
 package com.easyim.server.handler;
 
+import com.alibaba.fastjson.JSON;
 import com.easyim.comm.message.friend.AddFriendRequestMessage;
 import com.easyim.comm.message.friend.AddFriendResponseMessage;
 import com.easyim.dal.dataobject.UserDO;
@@ -7,6 +8,7 @@ import com.easyim.server.util.SocketChannelUtil;
 import com.easyim.service.FriendService;
 import com.easyim.service.UserService;
 import io.netty.channel.Channel;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Component;
  *
  * @author 单程车票
  */
+@Slf4j
 @Component
 public class AddFriendHandler extends BaseHandler<AddFriendRequestMessage> {
 
@@ -26,6 +29,7 @@ public class AddFriendHandler extends BaseHandler<AddFriendRequestMessage> {
 
     @Override
     public void channelRead(Channel channel, AddFriendRequestMessage msg) {
+        log.info("添加好友消息处理请求：{}", JSON.toJSONString(msg));
         // 添加好友
         friendService.saveFriend(msg.getUserId(), msg.getFriendId());
         // 推送回用户

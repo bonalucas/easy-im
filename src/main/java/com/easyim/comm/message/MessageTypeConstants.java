@@ -21,5 +21,7 @@ public interface MessageTypeConstants {
     Byte DialogNoticeResponseMessage = 9;
     Byte ChatRequestMessage = 10;
     Byte ChatResponseMessage = 11;
+    Byte FileUploadRequestMessage = 12;
+    Byte FileUploadResponseMessage = 13;
 
 }

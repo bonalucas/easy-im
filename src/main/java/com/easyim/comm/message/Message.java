@@ -6,6 +6,8 @@ import com.easyim.comm.message.dialog.DeleteDialogRequestMessage;
 import com.easyim.comm.message.dialog.DialogNoticeRequestMessage;
 import com.easyim.comm.message.dialog.DialogNoticeResponseMessage;
 import com.easyim.comm.message.error.GlobalErrorResponseMessage;
+import com.easyim.comm.message.file.FileUploadRequestMessage;
+import com.easyim.comm.message.file.FileUploadResponseMessage;
 import com.easyim.comm.message.friend.AddFriendRequestMessage;
 import com.easyim.comm.message.friend.AddFriendResponseMessage;
 import com.easyim.comm.message.friend.SearchFriendRequestMessage;
@@ -38,7 +40,8 @@ public abstract class Message {
         messageType.put(MessageTypeConstants.AddFriendResponseMessage, AddFriendResponseMessage.class);
         messageType.put(MessageTypeConstants.ChatRequestMessage, ChatRequestMessage.class);
         messageType.put(MessageTypeConstants.ChatResponseMessage, ChatResponseMessage.class);
-//        packetType.put(Command.ReconnectRequest, ReconnectRequest.class);
+        messageType.put(MessageTypeConstants.FileUploadRequestMessage, FileUploadRequestMessage.class);
+        messageType.put(MessageTypeConstants.FileUploadResponseMessage, FileUploadResponseMessage.class);
     }
 
     public static Class<? extends Message> get(Byte constant) {

@@ -11,7 +11,7 @@
  Target Server Version : 50719
  File Encoding         : 65001
 
- Date: 13/09/2023 17:05:16
+ Date: 20/09/2023 10:02:27
 */
 
 SET NAMES utf8mb4;
@@ -30,6 +30,21 @@ CREATE TABLE `easy_im_dialog`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci COMMENT = '对话表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for easy_im_file
+-- ----------------------------
+DROP TABLE IF EXISTS `easy_im_file`;
+CREATE TABLE `easy_im_file`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+  `file_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '文件名',
+  `file_type` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '文件类型',
+  `file_path` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '文件路径',
+  `file_url` varchar(256) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '文件访问地址',
+  `file_size` bigint(20) NULL DEFAULT NULL COMMENT '文件大小',
+  `upload_time` datetime(0) NULL DEFAULT NULL COMMENT '上传时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci COMMENT = '文件表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for easy_im_friend

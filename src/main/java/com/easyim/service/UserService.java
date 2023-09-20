@@ -18,7 +18,7 @@ public interface UserService {
      * @param userNickname 用户昵称
      * @param userAvatar 用户头像
      */
-    void register(String userId, String userPassword, String userNickname, String userAvatar);
+    boolean register(String userId, String userPassword, String userNickname, String userAvatar);
 
     /**
      * 登录认证

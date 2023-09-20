@@ -23,5 +23,7 @@ public interface MessageTypeConstants {
     Byte ChatResponseMessage = 11;
     Byte FileUploadRequestMessage = 12;
     Byte FileUploadResponseMessage = 13;
+    Byte RegisterRequestMessage = 14;
+    Byte RegisterResponseMessage = 15;
 
 }

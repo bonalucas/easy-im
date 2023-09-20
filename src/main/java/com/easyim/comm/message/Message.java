@@ -14,6 +14,8 @@ import com.easyim.comm.message.friend.SearchFriendRequestMessage;
 import com.easyim.comm.message.friend.SearchFriendResponseMessage;
 import com.easyim.comm.message.login.LoginRequestMessage;
 import com.easyim.comm.message.login.LoginResponseMessage;
+import com.easyim.comm.message.register.RegisterRequestMessage;
+import com.easyim.comm.message.register.RegisterResponseMessage;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -42,6 +44,8 @@ public abstract class Message {
         messageType.put(MessageTypeConstants.ChatResponseMessage, ChatResponseMessage.class);
         messageType.put(MessageTypeConstants.FileUploadRequestMessage, FileUploadRequestMessage.class);
         messageType.put(MessageTypeConstants.FileUploadResponseMessage, FileUploadResponseMessage.class);
+        messageType.put(MessageTypeConstants.RegisterRequestMessage, RegisterRequestMessage.class);
+        messageType.put(MessageTypeConstants.RegisterResponseMessage, RegisterResponseMessage.class);
     }
 
     public static Class<? extends Message> get(Byte constant) {

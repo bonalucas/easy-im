@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService{
     private UserMapper userMapper;
 
     @Override
-    public void register(String userId, String userPassword, String userNickname, String userAvatar) {
+    public boolean register(String userId, String userPassword, String userNickname, String userAvatar) {
         // 判断 userId 是否存在
         LambdaQueryWrapper<UserDO> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(StringUtils.isNotEmpty(userId), UserDO::getUserId, userId);
@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService{
         if (isExist != null) throw new ServiceException("该账号已被注册");
         // 创建用户对象并入库
         UserDO user = new UserDO(null, userId, userNickname, userAvatar, userPassword, DateUtil.date());
-        userMapper.insert(user);
+        return userMapper.insert(user) > 0;
     }
 
     @Override

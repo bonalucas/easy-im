@@ -41,7 +41,7 @@ public class NettyServer {
             bootstrap.channel(NioServerSocketChannel.class);
             bootstrap.option(ChannelOption.SO_BACKLOG, 128);
             bootstrap.childHandler(serverChannelInitializer);
-            channelFuture = bootstrap.bind(new InetSocketAddress(nettyProperties.getIp(), nettyProperties.getPort())).syncUninterruptibly();
+            channelFuture = bootstrap.bind(new InetSocketAddress(nettyProperties.getIp(), nettyProperties.getPort())).sync();
             this.channel = channelFuture.channel();
         } catch (Exception e) {
             log.error("Netty 服务器启动异常：{}", e.getMessage());

@@ -25,5 +25,6 @@ public interface MessageTypeConstants {
     Byte FileUploadResponseMessage = 13;
     Byte RegisterRequestMessage = 14;
     Byte RegisterResponseMessage = 15;
+    Byte ReconnectRequestMessage = 16;
 
 }

@@ -3,6 +3,7 @@ package com.easyim.server;
 import com.easyim.comm.protocol.MessageCodec;
 import com.easyim.comm.protocol.ProcotolFrameDecoder;
 import com.easyim.server.handler.*;
+import com.easyim.server.util.SocketChannelUtil;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
@@ -31,6 +32,9 @@ public class ServerChannelInitializer extends ChannelInitializer<SocketChannel> 
     private LoginHandler loginHandler;
 
     @Autowired
+    private RegisterHandler registerHandler;
+
+    @Autowired
     private SearchFriendHandler searchFriendHandler;
 
     @Autowired
@@ -42,13 +46,22 @@ public class ServerChannelInitializer extends ChannelInitializer<SocketChannel> 
     @Autowired
     private DeleteDialogHandler deleteDialogHandler;
 
+    @Autowired
+    private ChatHandler chatHandler;
+
+    @Autowired
+    private FileUploadHandler fileUploadHandler;
+
+    @Autowired
+    private ReconnectHandler reconnectHandler;
+
     @Override
     protected void initChannel(SocketChannel socketChannel) throws Exception {
         // 添加长度字段解码器
         socketChannel.pipeline().addLast(procotolFrameDecoder);
         // 添加自定义编解码器
         socketChannel.pipeline().addLast(messageCodec);
-        // 添加心跳检测（每10s内未读到数据触发 READER_IDLE 时间断开连接）
+        // 添加心跳检测（10s内未读到数据触发 READER_IDLE 时间断开连接）
         socketChannel.pipeline().addLast(new IdleStateHandler(10, 0, 0));
         socketChannel.pipeline().addLast(new ChannelDuplexHandler() {
             @Override
@@ -61,9 +74,13 @@ public class ServerChannelInitializer extends ChannelInitializer<SocketChannel> 
         });
         // 添加自定义业务处理器
         socketChannel.pipeline().addLast(loginHandler);
+        socketChannel.pipeline().addLast(registerHandler);
         socketChannel.pipeline().addLast(searchFriendHandler);
         socketChannel.pipeline().addLast(addFriendHandler);
         socketChannel.pipeline().addLast(dialogNoticeHandler);
         socketChannel.pipeline().addLast(deleteDialogHandler);
+        socketChannel.pipeline().addLast(chatHandler);
+        socketChannel.pipeline().addLast(fileUploadHandler);
+        socketChannel.pipeline().addLast(reconnectHandler);
     }
 }

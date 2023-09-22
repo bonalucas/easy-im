@@ -14,6 +14,7 @@ import com.easyim.comm.message.friend.SearchFriendRequestMessage;
 import com.easyim.comm.message.friend.SearchFriendResponseMessage;
 import com.easyim.comm.message.login.LoginRequestMessage;
 import com.easyim.comm.message.login.LoginResponseMessage;
+import com.easyim.comm.message.reconnect.ReconnectRequestMessage;
 import com.easyim.comm.message.register.RegisterRequestMessage;
 import com.easyim.comm.message.register.RegisterResponseMessage;
 
@@ -46,6 +47,7 @@ public abstract class Message {
         messageType.put(MessageTypeConstants.FileUploadResponseMessage, FileUploadResponseMessage.class);
         messageType.put(MessageTypeConstants.RegisterRequestMessage, RegisterRequestMessage.class);
         messageType.put(MessageTypeConstants.RegisterResponseMessage, RegisterResponseMessage.class);
+        messageType.put(MessageTypeConstants.ReconnectRequestMessage, ReconnectRequestMessage.class);
     }
 
     public static Class<? extends Message> get(Byte constant) {

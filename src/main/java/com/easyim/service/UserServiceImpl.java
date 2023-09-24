@@ -2,9 +2,9 @@ package com.easyim.service;
 
 import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.easyim.common.ServiceException;
 import com.easyim.dal.dataobject.UserDO;
 import com.easyim.dal.mapper.UserMapper;
-import com.easyim.common.ServiceException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,8 +1,5 @@
 package com.easyim.service;
 
-import com.easyim.comm.message.login.dto.FriendDto;
-import com.easyim.dal.dataobject.FriendDO;
-
 import java.util.List;
 
 /**

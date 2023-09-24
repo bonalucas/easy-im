@@ -1,7 +1,6 @@
 package com.easyim.comm.protocol;
 
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
-import org.springframework.stereotype.Component;
 
 /**
  * 自定义长度字段解码器

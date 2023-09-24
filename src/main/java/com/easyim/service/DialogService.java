@@ -2,7 +2,6 @@ package com.easyim.service;
 
 import com.easyim.dal.dataobject.DialogDO;
 
-import java.awt.*;
 import java.util.List;
 
 /**

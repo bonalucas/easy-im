@@ -3,8 +3,8 @@ package com.easyim.dal.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.easyim.comm.message.login.dto.RecordDto;
 import com.easyim.dal.dataobject.RecordDO;
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 

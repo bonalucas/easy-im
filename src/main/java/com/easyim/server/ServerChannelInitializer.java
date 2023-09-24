@@ -3,14 +3,9 @@ package com.easyim.server;
 import com.easyim.comm.protocol.MessageCodec;
 import com.easyim.comm.protocol.ProcotolFrameDecoder;
 import com.easyim.server.handler.*;
-import com.easyim.server.util.SocketChannelUtil;
-import io.netty.channel.ChannelDuplexHandler;
-import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
-import io.netty.handler.timeout.IdleState;
-import io.netty.handler.timeout.IdleStateEvent;
-import io.netty.handler.timeout.IdleStateHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +15,7 @@ import org.springframework.stereotype.Component;
  * @author 单程车票
  */
 @Component
+@ChannelHandler.Sharable
 public class ServerChannelInitializer extends ChannelInitializer<SocketChannel> {
 
     @Autowired

@@ -1,7 +1,5 @@
 package com.easyim.comm.message;
 
-import com.easyim.comm.message.login.LoginRequestMessage;
-
 /**
  * 消息类型
  *

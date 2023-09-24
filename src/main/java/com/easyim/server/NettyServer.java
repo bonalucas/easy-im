@@ -1,18 +1,18 @@
 package com.easyim.server;
 
 import com.easyim.config.NettyProperties;
-import io.netty.bootstrap.Bootstrap;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.*;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelOption;
+import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.net.InetSocketAddress;
-import java.util.concurrent.Callable;
 
 /**
  * Netty 服务器
@@ -39,8 +39,12 @@ public class NettyServer {
             ServerBootstrap bootstrap = new ServerBootstrap();
             bootstrap.group(connectionGroup, workerGroup);
             bootstrap.channel(NioServerSocketChannel.class);
-            // SO_BACKLOG 表示系统用于临时存放已完成三次握手的请求的队列的最大长度（如果连接建立频繁，服务器处理创建新连接较慢，则可以适当调大这个参数）
+            // 设置请求的队列的最大长度
             bootstrap.option(ChannelOption.SO_BACKLOG, 1024);
+            // 开启 TCP 心跳机制
+            bootstrap.childOption(ChannelOption.SO_KEEPALIVE, true);
+            // 开启 Nagle 算法（保证高实时性）
+            bootstrap.childOption(ChannelOption.TCP_NODELAY, true);
             bootstrap.childHandler(serverChannelInitializer);
             channelFuture = bootstrap.bind(new InetSocketAddress(nettyProperties.getIp(), nettyProperties.getPort())).sync();
             this.channel = channelFuture.channel();

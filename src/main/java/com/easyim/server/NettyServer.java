@@ -39,7 +39,8 @@ public class NettyServer {
             ServerBootstrap bootstrap = new ServerBootstrap();
             bootstrap.group(connectionGroup, workerGroup);
             bootstrap.channel(NioServerSocketChannel.class);
-            bootstrap.option(ChannelOption.SO_BACKLOG, 128);
+            // SO_BACKLOG 表示系统用于临时存放已完成三次握手的请求的队列的最大长度（如果连接建立频繁，服务器处理创建新连接较慢，则可以适当调大这个参数）
+            bootstrap.option(ChannelOption.SO_BACKLOG, 1024);
             bootstrap.childHandler(serverChannelInitializer);
             channelFuture = bootstrap.bind(new InetSocketAddress(nettyProperties.getIp(), nettyProperties.getPort())).sync();
             this.channel = channelFuture.channel();

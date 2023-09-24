@@ -4,6 +4,7 @@ import com.alibaba.fastjson2.JSON;
 import com.easyim.comm.message.dialog.DeleteDialogRequestMessage;
 import com.easyim.service.DialogService;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
+@ChannelHandler.Sharable
 public class DeleteDialogHandler extends BaseHandler<DeleteDialogRequestMessage> {
 
     @Autowired

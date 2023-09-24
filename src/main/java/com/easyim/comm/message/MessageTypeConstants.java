@@ -26,5 +26,8 @@ public interface MessageTypeConstants {
     Byte RegisterRequestMessage = 14;
     Byte RegisterResponseMessage = 15;
     Byte ReconnectRequestMessage = 16;
+    // 心跳检测
+    Byte HeartBeatRequestMessage = 17;
+    Byte HeartBeatResponseMessage = 18;
 
 }

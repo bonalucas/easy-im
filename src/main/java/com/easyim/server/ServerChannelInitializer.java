@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- *
+ * Netty 服务器调用链
  *
  * @author 单程车票
  */
@@ -23,13 +23,13 @@ import org.springframework.stereotype.Component;
 public class ServerChannelInitializer extends ChannelInitializer<SocketChannel> {
 
     @Autowired
-    private ProcotolFrameDecoder procotolFrameDecoder;
-
-    @Autowired
     private MessageCodec messageCodec;
 
     @Autowired
     private LoginHandler loginHandler;
+
+    @Autowired
+    private AuthHandler authHandler;
 
     @Autowired
     private RegisterHandler registerHandler;
@@ -55,25 +55,22 @@ public class ServerChannelInitializer extends ChannelInitializer<SocketChannel> 
     @Autowired
     private ReconnectHandler reconnectHandler;
 
+    @Autowired
+    private HeartBeatHandler heartBeatHandler;
+
     @Override
     protected void initChannel(SocketChannel socketChannel) throws Exception {
+        // 添加空闲检测
+        socketChannel.pipeline().addLast(new ServerIdleStateHandler());
         // 添加长度字段解码器
-        socketChannel.pipeline().addLast(procotolFrameDecoder);
+        socketChannel.pipeline().addLast(new ProcotolFrameDecoder());
         // 添加自定义编解码器
         socketChannel.pipeline().addLast(messageCodec);
-        // 添加心跳检测（10s内未读到数据触发 READER_IDLE 时间断开连接）
-        socketChannel.pipeline().addLast(new IdleStateHandler(10, 0, 0));
-        socketChannel.pipeline().addLast(new ChannelDuplexHandler() {
-            @Override
-            public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
-                IdleStateEvent event = (IdleStateEvent) evt;
-                if (event.state() == IdleState.READER_IDLE) {
-                    ctx.channel().close();
-                }
-            }
-        });
+        // 添加心跳包处理器
+        socketChannel.pipeline().addLast(heartBeatHandler);
         // 添加自定义业务处理器
         socketChannel.pipeline().addLast(loginHandler);
+        socketChannel.pipeline().addLast(authHandler);
         socketChannel.pipeline().addLast(registerHandler);
         socketChannel.pipeline().addLast(searchFriendHandler);
         socketChannel.pipeline().addLast(addFriendHandler);

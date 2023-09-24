@@ -8,18 +8,17 @@ import org.springframework.stereotype.Component;
  *
  * @author 单程车票
  */
-@Component
 public class ProcotolFrameDecoder extends LengthFieldBasedFrameDecoder {
 
     /**
      * 数据最大长度
      */
-    private static final int maxFrameLength = 1024;
+    private static final int maxFrameLength = Integer.MAX_VALUE;
 
     /**
      * 数据长度标识的起始偏移量（指明数据第几个字节开始是用于标识有用字节长度）
      */
-    private static final int lengthFieldOffset = 1;
+    private static final int lengthFieldOffset = 6;
 
     /**
      * 数据长度标识所占字节数（表示有用数据长度的标识所占的字节数）

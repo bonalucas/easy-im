@@ -16,6 +16,8 @@ import com.easyim.dal.dataobject.*;
 import com.easyim.server.util.SocketChannelUtil;
 import com.easyim.service.*;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
+import io.netty.util.AttributeKey;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -31,6 +33,7 @@ import java.util.Objects;
  */
 @Slf4j
 @Component
+@ChannelHandler.Sharable
 public class LoginHandler extends BaseHandler<LoginRequestMessage> {
 
     @Autowired

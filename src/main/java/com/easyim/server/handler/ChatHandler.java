@@ -9,6 +9,7 @@ import com.easyim.server.util.SocketChannelUtil;
 import com.easyim.service.DialogService;
 import com.easyim.service.RecordService;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.group.ChannelGroup;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import java.util.Objects;
  */
 @Slf4j
 @Component
+@ChannelHandler.Sharable
 public class ChatHandler extends BaseHandler<ChatRequestMessage> {
 
     @Autowired

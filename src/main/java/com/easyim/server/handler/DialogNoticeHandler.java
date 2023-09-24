@@ -10,6 +10,7 @@ import com.easyim.server.util.SocketChannelUtil;
 import com.easyim.service.DialogService;
 import com.easyim.service.UserService;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,6 +24,7 @@ import java.util.Objects;
  */
 @Slf4j
 @Component
+@ChannelHandler.Sharable
 public class DialogNoticeHandler extends BaseHandler<DialogNoticeRequestMessage> {
 
     @Autowired

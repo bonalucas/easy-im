@@ -12,6 +12,8 @@ import com.easyim.comm.message.friend.AddFriendRequestMessage;
 import com.easyim.comm.message.friend.AddFriendResponseMessage;
 import com.easyim.comm.message.friend.SearchFriendRequestMessage;
 import com.easyim.comm.message.friend.SearchFriendResponseMessage;
+import com.easyim.comm.message.heartbeat.HeartBeatRequestMessage;
+import com.easyim.comm.message.heartbeat.HeartBeatResponseMessage;
 import com.easyim.comm.message.login.LoginRequestMessage;
 import com.easyim.comm.message.login.LoginResponseMessage;
 import com.easyim.comm.message.reconnect.ReconnectRequestMessage;
@@ -48,6 +50,8 @@ public abstract class Message {
         messageType.put(MessageTypeConstants.RegisterRequestMessage, RegisterRequestMessage.class);
         messageType.put(MessageTypeConstants.RegisterResponseMessage, RegisterResponseMessage.class);
         messageType.put(MessageTypeConstants.ReconnectRequestMessage, ReconnectRequestMessage.class);
+        messageType.put(MessageTypeConstants.HeartBeatRequestMessage, HeartBeatRequestMessage.class);
+        messageType.put(MessageTypeConstants.HeartBeatResponseMessage, HeartBeatResponseMessage.class);
     }
 
     public static Class<? extends Message> get(Byte constant) {

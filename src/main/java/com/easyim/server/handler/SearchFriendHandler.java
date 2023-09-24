@@ -10,6 +10,7 @@ import com.easyim.dal.dataobject.UserDO;
 import com.easyim.service.FriendService;
 import com.easyim.service.UserService;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,6 +27,7 @@ import java.util.Set;
  */
 @Slf4j
 @Component
+@ChannelHandler.Sharable
 public class SearchFriendHandler extends BaseHandler<SearchFriendRequestMessage> {
 
     @Autowired

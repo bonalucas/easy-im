@@ -5,6 +5,7 @@ import com.easyim.comm.message.reconnect.ReconnectRequestMessage;
 import com.easyim.server.util.SocketChannelUtil;
 import com.easyim.service.MemberService;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,7 @@ import java.util.List;
  */
 @Slf4j
 @Component
+@ChannelHandler.Sharable
 public class ReconnectHandler extends BaseHandler<ReconnectRequestMessage> {
 
     @Autowired

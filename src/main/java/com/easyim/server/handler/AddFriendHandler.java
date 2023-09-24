@@ -9,6 +9,7 @@ import com.easyim.server.util.SocketChannelUtil;
 import com.easyim.service.FriendService;
 import com.easyim.service.UserService;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
+@ChannelHandler.Sharable
 public class AddFriendHandler extends BaseHandler<AddFriendRequestMessage> {
 
     @Autowired

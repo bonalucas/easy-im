@@ -68,6 +68,10 @@ public class SocketChannelUtil {
         return channelMap.get(userId);
     }
 
+    public static boolean hasAuth(String channelId) {
+        return userMap.get(channelId) != null;
+    }
+
     /**
      * 添加群组成员通信管道
      * @param groupId 群组ID

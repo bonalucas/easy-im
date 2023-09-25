@@ -30,15 +30,7 @@ public class EasyIMApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         log.info("NettyServer 启动中...");
-        Channel channel = nettyServer.startServer();
-        if (channel == null) {
-            throw new RuntimeException("NettyServer 启动失败 => Channel is null");
-        }
-        while (!channel.isActive()) {
-            log.info("NettyServer 尝试再次启动...");
-            Thread.sleep(500);
-        }
-        log.info("NettyServer 启动成功 => Channel：{}", channel.localAddress());
+        nettyServer.startServer();
     }
 
 }

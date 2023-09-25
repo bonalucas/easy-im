@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.net.InetSocketAddress;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Netty 服务器
@@ -23,9 +24,20 @@ import java.net.InetSocketAddress;
 @Component("nettyServer")
 public class NettyServer {
 
+    /**
+     * 启动尝试次数
+     */
+    private static final int MAX_RETRY = 5;
+
+    /**
+     * 连接线程池
+     */
     private final EventLoopGroup connectionGroup = new NioEventLoopGroup(2);
+
+    /**
+     * 工作线程池
+     */
     private final EventLoopGroup workerGroup = new NioEventLoopGroup();
-    private Channel channel;
 
     @Autowired
     private NettyProperties nettyProperties;
@@ -33,8 +45,7 @@ public class NettyServer {
     @Autowired
     private ServerChannelInitializer serverChannelInitializer;
 
-    public Channel startServer() {
-        ChannelFuture channelFuture = null;
+    public void startServer() {
         try {
             ServerBootstrap bootstrap = new ServerBootstrap();
             bootstrap.group(connectionGroup, workerGroup);
@@ -46,27 +57,36 @@ public class NettyServer {
             // 开启 Nagle 算法（保证高实时性）
             bootstrap.childOption(ChannelOption.TCP_NODELAY, true);
             bootstrap.childHandler(serverChannelInitializer);
-            channelFuture = bootstrap.bind(new InetSocketAddress(nettyProperties.getIp(), nettyProperties.getPort())).sync();
-            this.channel = channelFuture.channel();
+            bind(bootstrap, nettyProperties.getIp(), nettyProperties.getPort(), MAX_RETRY);
         } catch (Exception e) {
             log.error("Netty 服务器启动异常：{}", e.getMessage());
-        } finally {
-            if (null == channelFuture || !channelFuture.isSuccess()) {
-                log.error("Netty 服务器启动失败");
-            }
+            destroyEventLoop();
         }
-        return channel;
     }
 
-    public void destroy() {
-        if (null == channel) return;
-        channel.close();
+    private void bind(ServerBootstrap bootstrap, String hostname, int port, int retry) {
+        bootstrap.bind(new InetSocketAddress(hostname, port)).addListener(future -> {
+            if (future.isSuccess()) {
+                ChannelFuture channelFuture = (ChannelFuture) future;
+                log.info("Netty 服务器启动成功 => Channel：{}", channelFuture.channel().localAddress());
+            } else if (retry == 0) {
+                log.info("终止 Netty 服务器启动");
+                destroyEventLoop();
+            } else {
+                // 获取间隔重新启动时间
+                int order = (MAX_RETRY - retry) + 1;
+                int delay = 1 << order;
+                log.info("第 {} 次 尝试重新启动 Netty 服务器失败...", order);
+                // 定时任务尝试重新启动
+                bootstrap.config().group().schedule(() ->
+                        bind(bootstrap, hostname, port, retry - 1), delay, TimeUnit.SECONDS);
+            }
+        });
+    }
+
+    public void destroyEventLoop() {
         connectionGroup.shutdownGracefully();
         workerGroup.shutdownGracefully();
-    }
-
-    public Channel channel() {
-        return channel;
     }
 
 }

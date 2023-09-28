@@ -25,6 +25,11 @@ import java.util.concurrent.TimeUnit;
 public class NettyServer {
 
     /**
+     * 获取启动后的通道（用于主动发送消息）
+     */
+    private Channel channel;
+
+    /**
      * 启动尝试次数
      */
     private static final int MAX_RETRY = 5;
@@ -68,9 +73,10 @@ public class NettyServer {
         bootstrap.bind(new InetSocketAddress(hostname, port)).addListener(future -> {
             if (future.isSuccess()) {
                 ChannelFuture channelFuture = (ChannelFuture) future;
-                log.info("Netty 服务器启动成功 => Channel：{}", channelFuture.channel().localAddress());
+                this.channel = channelFuture.channel();
+                log.info("Netty 服务器启动成功 => Channel：{}", this.channel.localAddress());
             } else if (retry == 0) {
-                log.info("终止 Netty 服务器启动");
+                log.error("终止 Netty 服务器启动：尝试 {} 次重启失败", MAX_RETRY);
                 destroyEventLoop();
             } else {
                 // 获取间隔重新启动时间
@@ -89,4 +95,7 @@ public class NettyServer {
         workerGroup.shutdownGracefully();
     }
 
+    public Channel channel() {
+        return this.channel;
+    }
 }

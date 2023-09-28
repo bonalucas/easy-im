@@ -23,9 +23,6 @@ public class RecordServiceImpl implements RecordService {
     @Autowired
     private RecordMapper recordMapper;
 
-    @Autowired
-    private ThreadPoolExecutor executor;
-
     @Override
     public List<RecordDO> queryRecordList(String dialogId) {
         // 根据条件查询聊天记录列表
@@ -42,9 +39,7 @@ public class RecordServiceImpl implements RecordService {
 
     @Override
     public void saveRecord(String dialogId, String senderId, String content) {
-        executor.execute(() -> {
-            RecordDO record = new RecordDO(null, dialogId, senderId, content, DateUtil.date());
-            recordMapper.insert(record);
-        });
+        RecordDO record = new RecordDO(null, dialogId, senderId, content, DateUtil.date());
+        recordMapper.insert(record);
     }
 }

@@ -27,7 +27,7 @@ public class ThreadConfig {
                 TimeUnit.SECONDS,
                 new LinkedBlockingDeque<>(pool.getQueueSize()),
                 Executors.defaultThreadFactory(),
-                new ThreadPoolExecutor.CallerRunsPolicy()
+                new ThreadPoolExecutor.DiscardPolicy()
         );
     }
 

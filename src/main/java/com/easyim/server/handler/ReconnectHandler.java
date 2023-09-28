@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * 断线重连处理器
@@ -25,6 +26,9 @@ public class ReconnectHandler extends BaseHandler<ReconnectRequestMessage> {
     @Autowired
     private MemberService memberService;
 
+    @Autowired
+    private ThreadPoolExecutor executor;
+
     @Override
     public void channelRead(Channel channel, ReconnectRequestMessage msg) {
         log.info("断线重连消息处理请求：{}", JSON.toJSONString(msg));
@@ -32,8 +36,11 @@ public class ReconnectHandler extends BaseHandler<ReconnectRequestMessage> {
         SocketChannelUtil.addChannel(msg.getUserId(), channel);
         // 重新添加群组
         List<String> groupIds = memberService.queryGroup(msg.getUserId());
-        for (String groupId : groupIds) {
-            SocketChannelUtil.addGroup(groupId, channel);
-        }
+        // 使用自定义线程池实现异步插入聊天记录任务
+        executor.submit(() -> {
+            for (String groupId : groupIds) {
+                SocketChannelUtil.addGroup(groupId, channel);
+            }
+        });
     }
 }

@@ -36,11 +36,8 @@ public class ReconnectHandler extends BaseHandler<ReconnectRequestMessage> {
         SocketChannelUtil.addChannel(msg.getUserId(), channel);
         // 重新添加群组
         List<String> groupIds = memberService.queryGroup(msg.getUserId());
-        // 使用自定义线程池实现异步插入聊天记录任务
-        executor.submit(() -> {
-            for (String groupId : groupIds) {
-                SocketChannelUtil.addGroup(groupId, channel);
-            }
-        });
+        for (String groupId : groupIds) {
+            executor.submit(() -> SocketChannelUtil.addGroup(groupId, channel));
+        }
     }
 }

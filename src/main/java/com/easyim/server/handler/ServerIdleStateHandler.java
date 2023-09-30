@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class ServerIdleStateHandler extends IdleStateHandler {
 
-    private static final long READER_IDLE_TIME = 15L;
+    private static final long READER_IDLE_TIME = 60L;
 
     public ServerIdleStateHandler() {
         super(READER_IDLE_TIME, 0L, 0L, TimeUnit.SECONDS);

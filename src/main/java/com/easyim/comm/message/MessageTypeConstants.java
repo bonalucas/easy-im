@@ -28,4 +28,7 @@ public interface MessageTypeConstants {
     Byte HeartBeatRequestMessage = 17;
     Byte HeartBeatResponseMessage = 18;
 
+    Byte TestRequestMessage = 19;
+    Byte TestResponseMessage = 20;
+
 }

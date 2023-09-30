@@ -54,26 +54,30 @@ public class ServerChannelInitializer extends ChannelInitializer<SocketChannel> 
     @Autowired
     private HeartBeatHandler heartBeatHandler;
 
+    @Autowired
+    private TestMessageHandler testMessageHandler;
+
     @Override
     protected void initChannel(SocketChannel socketChannel) throws Exception {
         // 添加空闲检测
-        socketChannel.pipeline().addLast(new ServerIdleStateHandler());
+        socketChannel.pipeline().addLast(ServerChannelInitializer.class.getSimpleName(), new ServerIdleStateHandler());
         // 添加长度字段解码器
-        socketChannel.pipeline().addLast(new ProcotolFrameDecoder());
+        socketChannel.pipeline().addLast(ProcotolFrameDecoder.class.getSimpleName(), new ProcotolFrameDecoder());
         // 添加自定义编解码器
-        socketChannel.pipeline().addLast(messageCodec);
+        socketChannel.pipeline().addLast(MessageCodec.class.getSimpleName(), messageCodec);
         // 添加心跳包处理器
-        socketChannel.pipeline().addLast(heartBeatHandler);
+        socketChannel.pipeline().addLast(HeartBeatHandler.class.getSimpleName(), heartBeatHandler);
         // 添加自定义业务处理器
-        socketChannel.pipeline().addLast(loginHandler);
-        socketChannel.pipeline().addLast(authHandler);
-        socketChannel.pipeline().addLast(registerHandler);
-        socketChannel.pipeline().addLast(searchFriendHandler);
-        socketChannel.pipeline().addLast(addFriendHandler);
-        socketChannel.pipeline().addLast(dialogNoticeHandler);
-        socketChannel.pipeline().addLast(deleteDialogHandler);
-        socketChannel.pipeline().addLast(chatHandler);
-        socketChannel.pipeline().addLast(fileUploadHandler);
-        socketChannel.pipeline().addLast(reconnectHandler);
+        socketChannel.pipeline().addLast(LoginHandler.class.getSimpleName(), loginHandler);
+        socketChannel.pipeline().addLast(AuthHandler.class.getSimpleName(), authHandler);
+        socketChannel.pipeline().addLast(ReconnectHandler.class.getSimpleName(), registerHandler);
+        socketChannel.pipeline().addLast(SearchFriendHandler.class.getSimpleName(), searchFriendHandler);
+        socketChannel.pipeline().addLast(AddFriendHandler.class.getSimpleName(), addFriendHandler);
+        socketChannel.pipeline().addLast(DialogNoticeHandler.class.getSimpleName(), dialogNoticeHandler);
+        socketChannel.pipeline().addLast(DeleteDialogHandler.class.getSimpleName(), deleteDialogHandler);
+        socketChannel.pipeline().addLast(ChatHandler.class.getSimpleName(), chatHandler);
+        socketChannel.pipeline().addLast(FileUploadHandler.class.getSimpleName(), fileUploadHandler);
+        socketChannel.pipeline().addLast(ReconnectHandler.class.getSimpleName(), reconnectHandler);
+        socketChannel.pipeline().addLast(TestMessageHandler.class.getSimpleName(), testMessageHandler);
     }
 }

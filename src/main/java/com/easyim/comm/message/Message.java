@@ -19,6 +19,8 @@ import com.easyim.comm.message.login.LoginResponseMessage;
 import com.easyim.comm.message.reconnect.ReconnectRequestMessage;
 import com.easyim.comm.message.register.RegisterRequestMessage;
 import com.easyim.comm.message.register.RegisterResponseMessage;
+import com.easyim.comm.message.test.TestRequestMessage;
+import com.easyim.comm.message.test.TestResponseMessage;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -29,6 +31,16 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author 单程车票
  */
 public abstract class Message {
+
+    /**
+     * 消息ID
+     */
+    private String messageId;
+
+    /**
+     * 服务端状态
+     */
+    private String serverStatus;
 
     private final static Map<Byte, Class<? extends Message>> messageType = new ConcurrentHashMap<>();
 
@@ -52,6 +64,9 @@ public abstract class Message {
         messageType.put(MessageTypeConstants.ReconnectRequestMessage, ReconnectRequestMessage.class);
         messageType.put(MessageTypeConstants.HeartBeatRequestMessage, HeartBeatRequestMessage.class);
         messageType.put(MessageTypeConstants.HeartBeatResponseMessage, HeartBeatResponseMessage.class);
+
+        messageType.put(MessageTypeConstants.TestRequestMessage, TestRequestMessage.class);
+        messageType.put(MessageTypeConstants.TestResponseMessage, TestResponseMessage.class);
     }
 
     public static Class<? extends Message> get(Byte constant) {
@@ -64,5 +79,21 @@ public abstract class Message {
      * @return 返回消息类型常量
      */
     public abstract Byte getConstant();
+
+    public String getMessageId() {
+        return messageId;
+    }
+
+    public void setMessageId(String messageId) {
+        this.messageId = messageId;
+    }
+
+    public String getServerStatus() {
+        return serverStatus;
+    }
+
+    public void setServerStatus(String serverStatus) {
+        this.serverStatus = serverStatus;
+    }
 
 }

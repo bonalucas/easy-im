@@ -1,5 +1,6 @@
 package com.easyim.comm.protocol;
 
+import com.alibaba.fastjson.JSON;
 import com.easyim.comm.message.Message;
 import com.easyim.comm.serialize.Serializer;
 import com.easyim.comm.serialize.SerializerAlgorithmConstants;
@@ -59,10 +60,12 @@ public class MessageCodec extends MessageToMessageCodec<ByteBuf, Message> {
         Serializer serializer = serializerAlgorithmMap.get(SERIALIZER_ALGORITHM);
         // 写入序列化消息的长度与内容
         byte[] msg_bytes = serializer.serialize(msg);
-        buffer.writeByte(msg_bytes.length);
+        buffer.writeInt(msg_bytes.length);
         buffer.writeBytes(msg_bytes);
         // 输出
         out.add(buffer);
+
+        log.info("消息：{} 编码成功", JSON.toJSONString(msg));
     }
 
     @Override
@@ -70,6 +73,7 @@ public class MessageCodec extends MessageToMessageCodec<ByteBuf, Message> {
         // 获取魔数并校验协议
         int magic_number = in.readInt();
         if (magic_number != MessageCodec.MAGIC_NUMBER) {
+            log.error("协议不匹配，断开连接");
             ctx.channel().close();
             return;
         }
@@ -88,6 +92,8 @@ public class MessageCodec extends MessageToMessageCodec<ByteBuf, Message> {
         Message msg = serializer.deserialize(Message.get(msg_type), msg_bytes);
         // 输出
         out.add(msg);
+
+        log.info("消息：{} 解码成功", JSON.toJSONString(msg));
     }
 
 }

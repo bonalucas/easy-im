@@ -6,17 +6,17 @@ import com.easyim.comm.message.login.LoginResponseMessage;
 import com.easyim.comm.message.login.dto.DialogDto;
 import com.easyim.comm.message.login.dto.FriendDto;
 import com.easyim.comm.message.login.dto.RecordDto;
-import com.easyim.common.Constants;
-import com.easyim.common.ServiceException;
 import com.easyim.convert.DialogConvert;
 import com.easyim.convert.GroupConvert;
 import com.easyim.dal.dataobject.DialogDO;
 import com.easyim.dal.dataobject.GroupDO;
 import com.easyim.dal.dataobject.UserDO;
-import com.easyim.server.util.SocketChannelUtil;
+import com.easyim.server.common.ServerChannelUtil;
+import com.easyim.server.common.ServerConstants;
 import com.easyim.service.*;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -33,7 +33,7 @@ import java.util.Objects;
 @Slf4j
 @Component
 @ChannelHandler.Sharable
-public class LoginHandler extends BaseHandler<LoginRequestMessage> {
+public class LoginHandler extends SimpleChannelInboundHandler<LoginRequestMessage> {
 
     @Autowired
     private UserService userService;
@@ -54,16 +54,20 @@ public class LoginHandler extends BaseHandler<LoginRequestMessage> {
     private FriendService friendService;
 
     @Override
-    public void channelRead(Channel channel, LoginRequestMessage msg) {
-        log.info("登录消息处理请求：{} ", JSON.toJSONString(msg));
+    protected void channelRead0(ChannelHandlerContext ctx, LoginRequestMessage msg) throws Exception {
+        log.info("收到登录消息处理请求：{} ", JSON.toJSONString(msg));
         boolean auth = userService.loginAuth(msg.getUserId(), msg.getUserPassword());
-        if (!auth) throw new ServiceException("登录认证失败");
+        if (!auth) {
+            LoginResponseMessage message = new LoginResponseMessage();
+            message.setServerStatus(false);
+            ctx.writeAndFlush(message);
+        }
         // 登录成功加入缓存
-        SocketChannelUtil.addChannel(msg.getUserId(), channel);
+        ServerChannelUtil.addChannel(msg.getUserId(), ctx.channel());
         // 绑定群组
         List<String> groupIdList = memberService.queryGroup(msg.getUserId());
         for (String groupId : groupIdList) {
-            SocketChannelUtil.addGroup(groupId, channel);
+            ServerChannelUtil.addGroup(groupId, ctx.channel());
         }
         // 封装反馈信息
         LoginResponseMessage loginResponse = new LoginResponseMessage();
@@ -90,7 +94,7 @@ public class LoginHandler extends BaseHandler<LoginRequestMessage> {
             // 填充已有字段
             DialogDto dialogDto = DialogConvert.INSTANCT.convertDto(dialogDO);
             // 填充对话名称和对话头像
-            if (Objects.equals(dialogDO.getDialogType(), Constants.DialogType.SINGLE_CHAT.getCode())) {
+            if (Objects.equals(dialogDO.getDialogType(), ServerConstants.DialogType.SINGLE_CHAT.getCode())) {
                 UserDO receiver = userService.queryUser(dialogDO.getReceiverId());
                 dialogDto.setName(receiver.getUserNickname());
                 dialogDto.setAvatar(receiver.getUserAvatar());
@@ -107,6 +111,7 @@ public class LoginHandler extends BaseHandler<LoginRequestMessage> {
         }
         loginResponse.setDialogList(dialogDtoList);
         // 传输消息
-        channel.writeAndFlush(loginResponse);
+        ctx.writeAndFlush(loginResponse);
     }
+
 }

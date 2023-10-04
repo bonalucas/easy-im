@@ -3,8 +3,9 @@ package com.easyim.server.handler;
 import com.alibaba.fastjson2.JSON;
 import com.easyim.comm.message.dialog.DeleteDialogRequestMessage;
 import com.easyim.service.DialogService;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,14 +18,15 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @ChannelHandler.Sharable
-public class DeleteDialogHandler extends BaseHandler<DeleteDialogRequestMessage> {
+public class DeleteDialogHandler extends SimpleChannelInboundHandler<DeleteDialogRequestMessage> {
 
     @Autowired
     private DialogService dialogService;
 
     @Override
-    public void channelRead(Channel channel, DeleteDialogRequestMessage msg) {
+    protected void channelRead0(ChannelHandlerContext ctx, DeleteDialogRequestMessage msg) throws Exception {
         log.info("删除对话消息处理请求：{}", JSON.toJSONString(msg));
         dialogService.deleteDialog(msg.getDialogId());
     }
+
 }

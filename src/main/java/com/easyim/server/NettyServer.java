@@ -50,6 +50,9 @@ public class NettyServer {
     @Autowired
     private ServerChannelInitializer serverChannelInitializer;
 
+    /**
+     * 服务器启动方法
+     */
     public void startServer() {
         try {
             ServerBootstrap bootstrap = new ServerBootstrap();
@@ -69,6 +72,14 @@ public class NettyServer {
         }
     }
 
+    /**
+     * 服务器绑定方法
+     *
+     * @param bootstrap bootstrap
+     * @param hostname ip
+     * @param port 端口
+     * @param retry 尝试次数
+     */
     private void bind(ServerBootstrap bootstrap, String hostname, int port, int retry) {
         bootstrap.bind(new InetSocketAddress(hostname, port)).addListener(future -> {
             if (future.isSuccess()) {
@@ -90,12 +101,21 @@ public class NettyServer {
         });
     }
 
+    /**
+     * 优雅关闭 EventLoop
+     */
     public void destroyEventLoop() {
         connectionGroup.shutdownGracefully();
         workerGroup.shutdownGracefully();
     }
 
+    /**
+     * 获取与客户端建立连接的通道
+     *
+     * @return 通道
+     */
     public Channel channel() {
         return this.channel;
     }
+
 }

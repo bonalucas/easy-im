@@ -2,10 +2,11 @@ package com.easyim.server.handler;
 
 import com.alibaba.fastjson.JSON;
 import com.easyim.comm.message.reconnect.ReconnectRequestMessage;
-import com.easyim.server.util.SocketChannelUtil;
+import com.easyim.server.common.ServerChannelUtil;
 import com.easyim.service.MemberService;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,7 +22,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Slf4j
 @Component
 @ChannelHandler.Sharable
-public class ReconnectHandler extends BaseHandler<ReconnectRequestMessage> {
+public class ReconnectHandler extends SimpleChannelInboundHandler<ReconnectRequestMessage> {
 
     @Autowired
     private MemberService memberService;
@@ -30,14 +31,15 @@ public class ReconnectHandler extends BaseHandler<ReconnectRequestMessage> {
     private ThreadPoolExecutor executor;
 
     @Override
-    public void channelRead(Channel channel, ReconnectRequestMessage msg) {
+    protected void channelRead0(ChannelHandlerContext ctx, ReconnectRequestMessage msg) throws Exception {
         log.info("断线重连消息处理请求：{}", JSON.toJSONString(msg));
         // 重新添加 channel
-        SocketChannelUtil.addChannel(msg.getUserId(), channel);
+        ServerChannelUtil.addChannel(msg.getUserId(), ctx.channel());
         // 重新添加群组
         List<String> groupIds = memberService.queryGroup(msg.getUserId());
         for (String groupId : groupIds) {
-            executor.submit(() -> SocketChannelUtil.addGroup(groupId, channel));
+            executor.submit(() -> ServerChannelUtil.addGroup(groupId, ctx.channel()));
         }
     }
+
 }

@@ -3,7 +3,7 @@ package com.easyim.service;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.easyim.common.Constants;
+import com.easyim.server.common.ServerConstants;
 import com.easyim.dal.dataobject.DialogDO;
 import com.easyim.dal.mapper.DialogMapper;
 import org.apache.commons.lang3.StringUtils;
@@ -28,13 +28,13 @@ public class DialogServiceImpl implements DialogService {
     @Override
     public void createSingleChatDialog(String senderId, String receiverId) {
         String dialogId = IdUtil.getSnowflakeNextIdStr();
-        dialogMapper.insert(new DialogDO(null, dialogId, senderId, receiverId, Constants.DialogType.SINGLE_CHAT.getCode(), DateUtil.date()));
-        dialogMapper.insert(new DialogDO(null, dialogId, receiverId, senderId, Constants.DialogType.SINGLE_CHAT.getCode(), DateUtil.date()));
+        dialogMapper.insert(new DialogDO(null, dialogId, senderId, receiverId, ServerConstants.DialogType.SINGLE_CHAT.getCode(), DateUtil.date()));
+        dialogMapper.insert(new DialogDO(null, dialogId, receiverId, senderId, ServerConstants.DialogType.SINGLE_CHAT.getCode(), DateUtil.date()));
     }
 
     @Override
     public void createGroupChatDialog(String groupId, String senderId) {
-        dialogMapper.insert(new DialogDO(null, groupId, senderId, groupId, Constants.DialogType.GROUP_CHAT.getCode(), DateUtil.date()));
+        dialogMapper.insert(new DialogDO(null, groupId, senderId, groupId, ServerConstants.DialogType.GROUP_CHAT.getCode(), DateUtil.date()));
     }
 
     @Override

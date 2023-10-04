@@ -1,6 +1,6 @@
 package com.easyim.server.handler;
 
-import com.easyim.server.util.SocketChannelUtil;
+import com.easyim.server.common.ServerChannelUtil;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -20,12 +20,11 @@ public class AuthHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         // 校验登录认证
-        if (!SocketChannelUtil.hasAuth(ctx.channel().id().toString())) {
+        if (!ServerChannelUtil.hasAuth(ctx.channel().id().toString())) {
             ctx.channel().close();
         } else {
             // 校验成功后删除当前处理器，避免后续重复校验浪费性能
-            ctx.pipeline().remove(this);
-            super.channelRead(ctx, msg);
+            ctx.pipeline().remove(AuthHandler.class.getSimpleName());
         }
     }
 

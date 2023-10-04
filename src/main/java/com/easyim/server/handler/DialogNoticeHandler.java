@@ -3,14 +3,16 @@ package com.easyim.server.handler;
 import com.alibaba.fastjson.JSON;
 import com.easyim.comm.message.dialog.DialogNoticeRequestMessage;
 import com.easyim.comm.message.dialog.DialogNoticeResponseMessage;
-import com.easyim.common.Constants;
 import com.easyim.dal.dataobject.DialogDO;
 import com.easyim.dal.dataobject.UserDO;
-import com.easyim.server.util.SocketChannelUtil;
+import com.easyim.server.common.ServerChannelUtil;
+import com.easyim.server.common.ServerConstants;
 import com.easyim.service.DialogService;
 import com.easyim.service.UserService;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,7 +27,7 @@ import java.util.Objects;
 @Slf4j
 @Component
 @ChannelHandler.Sharable
-public class DialogNoticeHandler extends BaseHandler<DialogNoticeRequestMessage> {
+public class DialogNoticeHandler extends SimpleChannelInboundHandler<DialogNoticeRequestMessage> {
 
     @Autowired
     private DialogService dialogService;
@@ -34,9 +36,9 @@ public class DialogNoticeHandler extends BaseHandler<DialogNoticeRequestMessage>
     private UserService userService;
 
     @Override
-    public void channelRead(Channel channel, DialogNoticeRequestMessage msg) {
+    protected void channelRead0(ChannelHandlerContext ctx, DialogNoticeRequestMessage msg) throws Exception {
         log.info("对话通知消息处理请求：{}", JSON.toJSONString(msg));
-        if (Objects.equals(Constants.DialogType.SINGLE_CHAT.getCode(), msg.getDialogType())) {
+        if (Objects.equals(ServerConstants.DialogType.SINGLE_CHAT.getCode(), msg.getDialogType())) {
             // 消息落库
             dialogService.createSingleChatDialog(msg.getSenderId(), msg.getReceiverId());
             // 查询对话ID
@@ -50,7 +52,7 @@ public class DialogNoticeHandler extends BaseHandler<DialogNoticeRequestMessage>
             response.setSketch(null);
             response.setNow(null);
             // 获取好友通信管道
-            Channel friendChannel = SocketChannelUtil.getChannel(msg.getReceiverId());
+            Channel friendChannel = ServerChannelUtil.getChannel(msg.getReceiverId());
             if (null == friendChannel) {
                 log.info("用户 {} 处于离线状态", msg.getReceiverId());
                 return;

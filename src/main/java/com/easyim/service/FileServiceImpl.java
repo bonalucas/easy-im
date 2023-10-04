@@ -1,7 +1,6 @@
 package com.easyim.service;
 
 import cn.hutool.core.date.DateUtil;
-import com.easyim.common.ServiceException;
 import com.easyim.dal.dataobject.FileDO;
 import com.easyim.dal.mapper.FileMapper;
 import com.j256.simplemagic.ContentInfo;
@@ -60,7 +59,7 @@ public class FileServiceImpl implements FileService {
             fileMapper.insert(new FileDO(null, fileName, fileType, objectName, fileUrl, (long) fileContent.length, DateUtil.date()));
             return fileUrl;
         } else {
-            throw new ServiceException("上传文件失败");
+            throw new RuntimeException("上传文件失败");
         }
     }
 

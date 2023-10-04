@@ -2,7 +2,6 @@ package com.easyim.service;
 
 import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.easyim.common.ServiceException;
 import com.easyim.dal.dataobject.UserDO;
 import com.easyim.dal.mapper.UserMapper;
 import org.apache.commons.lang3.StringUtils;
@@ -28,7 +27,7 @@ public class UserServiceImpl implements UserService{
         LambdaQueryWrapper<UserDO> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(StringUtils.isNotEmpty(userId), UserDO::getUserId, userId);
         UserDO isExist = userMapper.selectOne(queryWrapper);
-        if (isExist != null) throw new ServiceException("该账号已被注册");
+        if (isExist != null) throw new RuntimeException("该账号已被注册");
         // 创建用户对象并入库
         UserDO user = new UserDO(null, userId, userNickname, userAvatar, userPassword, DateUtil.date());
         return userMapper.insert(user) > 0;
@@ -40,7 +39,7 @@ public class UserServiceImpl implements UserService{
         LambdaQueryWrapper<UserDO> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(StringUtils.isNotEmpty(userId), UserDO::getUserId, userId);
         UserDO user = userMapper.selectOne(queryWrapper);
-        if (user == null) throw new ServiceException("该账号不存在");
+        if (user == null) throw new RuntimeException("该账号不存在");
         return userPassword.equals(user.getUserPassword());
     }
 

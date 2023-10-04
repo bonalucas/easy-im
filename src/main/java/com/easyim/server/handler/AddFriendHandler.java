@@ -3,13 +3,14 @@ package com.easyim.server.handler;
 import com.alibaba.fastjson.JSON;
 import com.easyim.comm.message.friend.AddFriendRequestMessage;
 import com.easyim.comm.message.friend.AddFriendResponseMessage;
-import com.easyim.common.ServiceException;
 import com.easyim.dal.dataobject.UserDO;
-import com.easyim.server.util.SocketChannelUtil;
+import com.easyim.server.common.ServerChannelUtil;
 import com.easyim.service.FriendService;
 import com.easyim.service.UserService;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,7 +23,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @ChannelHandler.Sharable
-public class AddFriendHandler extends BaseHandler<AddFriendRequestMessage> {
+public class AddFriendHandler extends SimpleChannelInboundHandler<AddFriendRequestMessage> {
 
     @Autowired
     private FriendService friendService;
@@ -31,16 +32,20 @@ public class AddFriendHandler extends BaseHandler<AddFriendRequestMessage> {
     private UserService userService;
 
     @Override
-    public void channelRead(Channel channel, AddFriendRequestMessage msg) {
+    protected void channelRead0(ChannelHandlerContext ctx, AddFriendRequestMessage msg) throws Exception {
         log.info("添加好友消息处理请求：{}", JSON.toJSONString(msg));
         // 添加好友
         friendService.saveFriend(msg.getUserId(), msg.getFriendId());
         // 推送回用户
         UserDO friend = userService.queryUser(msg.getFriendId());
-        channel.writeAndFlush(new AddFriendResponseMessage(friend.getUserId(), friend.getUserNickname(), friend.getUserAvatar()));
+        ctx.writeAndFlush(new AddFriendResponseMessage(friend.getUserId(), friend.getUserNickname(), friend.getUserAvatar()));
         // 推送回好友
-        Channel friendChannel = SocketChannelUtil.getChannel(msg.getFriendId());
-        if (friendChannel == null) throw new ServiceException("用户处于离线状态");
+        Channel friendChannel = ServerChannelUtil.getChannel(msg.getFriendId());
+        if (friendChannel == null) {
+            // TODO 响应
+            log.error("用户不存在");
+            return;
+        }
         UserDO user = userService.queryUser(msg.getUserId());
         friendChannel.writeAndFlush(new AddFriendResponseMessage(user.getUserId(), user.getUserNickname(), user.getUserAvatar()));
     }

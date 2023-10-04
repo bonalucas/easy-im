@@ -22,6 +22,9 @@ public class ServerChannelInitializer extends ChannelInitializer<SocketChannel> 
     private MessageCodec messageCodec;
 
     @Autowired
+    private MonitorHandler monitorHandler;
+
+    @Autowired
     private LoginHandler loginHandler;
 
     @Autowired
@@ -60,17 +63,19 @@ public class ServerChannelInitializer extends ChannelInitializer<SocketChannel> 
     @Override
     protected void initChannel(SocketChannel socketChannel) throws Exception {
         // 添加空闲检测
-        socketChannel.pipeline().addLast(ServerChannelInitializer.class.getSimpleName(), new ServerIdleStateHandler());
+        socketChannel.pipeline().addLast(ServerIdleStateHandler.class.getSimpleName(), new ServerIdleStateHandler());
         // 添加长度字段解码器
         socketChannel.pipeline().addLast(ProcotolFrameDecoder.class.getSimpleName(), new ProcotolFrameDecoder());
         // 添加自定义编解码器
         socketChannel.pipeline().addLast(MessageCodec.class.getSimpleName(), messageCodec);
+        // 添加监控处理器
+        socketChannel.pipeline().addLast(MonitorHandler.class.getSimpleName(), monitorHandler);
         // 添加心跳包处理器
         socketChannel.pipeline().addLast(HeartBeatHandler.class.getSimpleName(), heartBeatHandler);
         // 添加自定义业务处理器
         socketChannel.pipeline().addLast(LoginHandler.class.getSimpleName(), loginHandler);
-        socketChannel.pipeline().addLast(AuthHandler.class.getSimpleName(), authHandler);
-        socketChannel.pipeline().addLast(ReconnectHandler.class.getSimpleName(), registerHandler);
+//        socketChannel.pipeline().addLast(AuthHandler.class.getSimpleName(), authHandler);
+        socketChannel.pipeline().addLast(RegisterHandler.class.getSimpleName(), registerHandler);
         socketChannel.pipeline().addLast(SearchFriendHandler.class.getSimpleName(), searchFriendHandler);
         socketChannel.pipeline().addLast(AddFriendHandler.class.getSimpleName(), addFriendHandler);
         socketChannel.pipeline().addLast(DialogNoticeHandler.class.getSimpleName(), dialogNoticeHandler);

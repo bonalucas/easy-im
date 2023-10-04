@@ -1,11 +1,11 @@
-package com.easyim.common;
+package com.easyim.server.common;
 
 /**
  * 枚举信息定义类
  *
  * @author 单程车票
  */
-public class Constants {
+public class ServerConstants {
 
     /**
      * 对话类型状态码

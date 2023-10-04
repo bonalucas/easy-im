@@ -8,6 +8,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Easy-IM 服务器启动类
  *
@@ -30,6 +32,7 @@ public class EasyIMApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         log.info("NettyServer 启动中...");
+        // 启动 Netty 服务器
         nettyServer.startServer();
     }
 

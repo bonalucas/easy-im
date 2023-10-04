@@ -21,6 +21,7 @@ import com.easyim.comm.message.register.RegisterRequestMessage;
 import com.easyim.comm.message.register.RegisterResponseMessage;
 import com.easyim.comm.message.test.TestRequestMessage;
 import com.easyim.comm.message.test.TestResponseMessage;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -40,7 +41,7 @@ public abstract class Message {
     /**
      * 服务端状态
      */
-    private String serverStatus;
+    private Boolean serverStatus;
 
     private final static Map<Byte, Class<? extends Message>> messageType = new ConcurrentHashMap<>();
 
@@ -88,11 +89,11 @@ public abstract class Message {
         this.messageId = messageId;
     }
 
-    public String getServerStatus() {
+    public Boolean getServerStatus() {
         return serverStatus;
     }
 
-    public void setServerStatus(String serverStatus) {
+    public void setServerStatus(Boolean serverStatus) {
         this.serverStatus = serverStatus;
     }
 

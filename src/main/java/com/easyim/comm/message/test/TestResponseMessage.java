@@ -15,8 +15,20 @@ public class TestResponseMessage extends Message {
 
     private String content;
 
+    public TestResponseMessage(String messageId, Boolean status) {
+        super.setMessageId(messageId);
+        super.setStatus(status);
+    }
+
+    public TestResponseMessage(String messageId, Boolean status, String content) {
+        super.setMessageId(messageId);
+        super.setStatus(status);
+        this.content = content;
+    }
+
     @Override
     public Byte getConstant() {
         return MessageTypeConstants.TestResponseMessage;
     }
+
 }

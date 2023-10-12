@@ -53,6 +53,22 @@ public class LoginResponseMessage extends Message {
      */
     private List<FriendDto> friendList;
 
+    public LoginResponseMessage(String messageId, Boolean status) {
+        super.setMessageId(messageId);
+        super.setStatus(status);
+    }
+
+    public LoginResponseMessage(String messageId, Boolean status, String userId, String userAvatar, String userNickname, List<DialogDto> dialogList, List<GroupDto> groupList, List<FriendDto> friendList) {
+        super.setMessageId(messageId);
+        super.setStatus(status);
+        this.userId = userId;
+        this.userAvatar = userAvatar;
+        this.userNickname = userNickname;
+        this.dialogList = dialogList;
+        this.groupList = groupList;
+        this.friendList = friendList;
+    }
+
     @Override
     public Byte getConstant() {
         return MessageTypeConstants.LoginResponseMessage;

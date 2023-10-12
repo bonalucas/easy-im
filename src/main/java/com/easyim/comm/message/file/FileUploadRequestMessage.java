@@ -33,6 +33,19 @@ public class FileUploadRequestMessage extends Message {
      */
     private byte[] fileContent;
 
+    public FileUploadRequestMessage(String messageId, Boolean status) {
+        super.setMessageId(messageId);
+        super.setStatus(status);
+    }
+
+    public FileUploadRequestMessage(String messageId, Boolean status, String fileName, long fileSize, byte[] fileContent) {
+        super.setMessageId(messageId);
+        super.setStatus(status);
+        this.fileName = fileName;
+        this.fileSize = fileSize;
+        this.fileContent = fileContent;
+    }
+
     @Override
     public Byte getConstant() {
         return MessageTypeConstants.FileUploadRequestMessage;

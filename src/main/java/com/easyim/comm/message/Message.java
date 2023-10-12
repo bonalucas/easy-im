@@ -5,7 +5,6 @@ import com.easyim.comm.message.chat.ChatResponseMessage;
 import com.easyim.comm.message.dialog.DeleteDialogRequestMessage;
 import com.easyim.comm.message.dialog.DialogNoticeRequestMessage;
 import com.easyim.comm.message.dialog.DialogNoticeResponseMessage;
-import com.easyim.comm.message.error.GlobalErrorResponseMessage;
 import com.easyim.comm.message.file.FileUploadRequestMessage;
 import com.easyim.comm.message.file.FileUploadResponseMessage;
 import com.easyim.comm.message.friend.AddFriendRequestMessage;
@@ -21,7 +20,6 @@ import com.easyim.comm.message.register.RegisterRequestMessage;
 import com.easyim.comm.message.register.RegisterResponseMessage;
 import com.easyim.comm.message.test.TestRequestMessage;
 import com.easyim.comm.message.test.TestResponseMessage;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -39,14 +37,16 @@ public abstract class Message {
     private String messageId;
 
     /**
-     * 服务端状态
+     * 响应状态
      */
-    private Boolean serverStatus;
+    private Boolean status;
 
+    /**
+     * 消息类型 MAP
+     */
     private final static Map<Byte, Class<? extends Message>> messageType = new ConcurrentHashMap<>();
 
     static {
-        messageType.put(MessageTypeConstants.GlobalErrorResponseMessage, GlobalErrorResponseMessage.class);
         messageType.put(MessageTypeConstants.LoginRequestMessage, LoginRequestMessage.class);
         messageType.put(MessageTypeConstants.LoginResponseMessage, LoginResponseMessage.class);
         messageType.put(MessageTypeConstants.DialogNoticeRequestMessage, DialogNoticeRequestMessage.class);
@@ -65,7 +65,6 @@ public abstract class Message {
         messageType.put(MessageTypeConstants.ReconnectRequestMessage, ReconnectRequestMessage.class);
         messageType.put(MessageTypeConstants.HeartBeatRequestMessage, HeartBeatRequestMessage.class);
         messageType.put(MessageTypeConstants.HeartBeatResponseMessage, HeartBeatResponseMessage.class);
-
         messageType.put(MessageTypeConstants.TestRequestMessage, TestRequestMessage.class);
         messageType.put(MessageTypeConstants.TestResponseMessage, TestResponseMessage.class);
     }
@@ -89,12 +88,12 @@ public abstract class Message {
         this.messageId = messageId;
     }
 
-    public Boolean getServerStatus() {
-        return serverStatus;
+    public Boolean getStatus() {
+        return status;
     }
 
-    public void setServerStatus(Boolean serverStatus) {
-        this.serverStatus = serverStatus;
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 
 }

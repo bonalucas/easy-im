@@ -23,6 +23,17 @@ public class FileUploadResponseMessage extends Message {
      */
     private String fileUrl;
 
+    public FileUploadResponseMessage(String messageId, Boolean status) {
+        super.setMessageId(messageId);
+        super.setStatus(status);
+    }
+
+    public FileUploadResponseMessage(String messageId, Boolean status, String fileUrl) {
+        super.setMessageId(messageId);
+        super.setStatus(status);
+        this.fileUrl = fileUrl;
+    }
+
     @Override
     public Byte getConstant() {
         return MessageTypeConstants.FileUploadResponseMessage;

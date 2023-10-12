@@ -33,6 +33,19 @@ public class AddFriendResponseMessage extends Message {
      */
     private String friendAvatar;
 
+    public AddFriendResponseMessage(String messageId, Boolean status) {
+        super.setMessageId(messageId);
+        super.setStatus(status);
+    }
+
+    public AddFriendResponseMessage(String messageId, Boolean status, String friendId, String friendNickname, String friendAvatar) {
+        super.setMessageId(messageId);
+        super.setStatus(status);
+        this.friendId = friendId;
+        this.friendNickname = friendNickname;
+        this.friendAvatar = friendAvatar;
+    }
+
     @Override
     public Byte getConstant() {
         return MessageTypeConstants.AddFriendResponseMessage;

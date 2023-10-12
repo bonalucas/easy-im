@@ -59,7 +59,7 @@ public class LoginHandler extends SimpleChannelInboundHandler<LoginRequestMessag
         boolean auth = userService.loginAuth(msg.getUserId(), msg.getUserPassword());
         if (!auth) {
             LoginResponseMessage message = new LoginResponseMessage();
-            message.setServerStatus(false);
+            message.setStatus(false);
             ctx.writeAndFlush(message);
         }
         // 登录成功加入缓存

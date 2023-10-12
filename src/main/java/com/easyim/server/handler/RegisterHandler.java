@@ -31,11 +31,11 @@ public class RegisterHandler extends SimpleChannelInboundHandler<RegisterRequest
         RegisterResponseMessage message = new RegisterResponseMessage();
         if (res) {
             message.setResponseMsg("注册成功");
-            message.setServerStatus(true);
+            message.setStatus(true);
             ctx.writeAndFlush(message);
         } else {
             message.setResponseMsg("注册失败");
-            message.setServerStatus(false);
+            message.setStatus(false);
             ctx.writeAndFlush(message);
         }
     }

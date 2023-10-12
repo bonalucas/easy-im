@@ -28,6 +28,18 @@ public class LoginRequestMessage extends Message {
      */
     private String userPassword;
 
+    public LoginRequestMessage(String messageId, Boolean status) {
+        super.setMessageId(messageId);
+        super.setStatus(status);
+    }
+
+    public LoginRequestMessage(String messageId, Boolean status, String userId, String userPassword) {
+        super.setMessageId(messageId);
+        super.setStatus(status);
+        this.userId = userId;
+        this.userPassword = userPassword;
+    }
+
     @Override
     public Byte getConstant() {
         return MessageTypeConstants.LoginRequestMessage;

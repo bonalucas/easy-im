@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@AllArgsConstructor
 @NoArgsConstructor
 public class RegisterRequestMessage extends Message {
 
@@ -38,6 +37,19 @@ public class RegisterRequestMessage extends Message {
      */
     private String avatar;
 
+    public RegisterRequestMessage(String messageId, Boolean status) {
+        super.setMessageId(messageId);
+        super.setStatus(status);
+    }
+
+    public RegisterRequestMessage(String messageId, Boolean status, String username, String password, String nickname, String avatar) {
+        super.setMessageId(messageId);
+        super.setStatus(status);
+        this.username = username;
+        this.password = password;
+        this.nickname = nickname;
+        this.avatar = avatar;
+    }
 
     @Override
     public Byte getConstant() {

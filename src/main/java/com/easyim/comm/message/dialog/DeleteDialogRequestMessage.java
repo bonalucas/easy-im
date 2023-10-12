@@ -28,6 +28,18 @@ public class DeleteDialogRequestMessage extends Message {
      */
     private String senderId;
 
+    public DeleteDialogRequestMessage(String messageId, Boolean status) {
+        super.setMessageId(messageId);
+        super.setStatus(status);
+    }
+
+    public DeleteDialogRequestMessage(String messageId, Boolean status, String dialogId, String senderId) {
+        super.setMessageId(messageId);
+        super.setStatus(status);
+        this.dialogId = dialogId;
+        this.senderId = senderId;
+    }
+
     @Override
     public Byte getConstant() {
         return MessageTypeConstants.DeleteDialogRequestMessage;

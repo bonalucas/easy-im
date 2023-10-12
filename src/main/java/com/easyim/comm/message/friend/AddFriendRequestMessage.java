@@ -28,6 +28,18 @@ public class AddFriendRequestMessage extends Message {
      */
     private String friendId;
 
+    public AddFriendRequestMessage(String messageId, Boolean status) {
+        super.setMessageId(messageId);
+        super.setStatus(status);
+    }
+
+    public AddFriendRequestMessage(String messageId, Boolean status, String userId, String friendId) {
+        super.setMessageId(messageId);
+        super.setStatus(status);
+        this.userId = userId;
+        this.friendId = friendId;
+    }
+
     @Override
     public Byte getConstant() {
         return MessageTypeConstants.AddFriendRequestMessage;

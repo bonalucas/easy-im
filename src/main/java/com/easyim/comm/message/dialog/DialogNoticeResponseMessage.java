@@ -45,6 +45,21 @@ public class DialogNoticeResponseMessage extends Message {
      */
     private Date now;
 
+    public DialogNoticeResponseMessage(String messageId, Boolean status) {
+        super.setMessageId(messageId);
+        super.setStatus(status);
+    }
+
+    public DialogNoticeResponseMessage(String messageId, Boolean status, String dialogId, String name, String avatar, String sketch, Date now) {
+        super.setMessageId(messageId);
+        super.setStatus(status);
+        this.dialogId = dialogId;
+        this.name = name;
+        this.avatar = avatar;
+        this.sketch = sketch;
+        this.now = now;
+    }
+
     @Override
     public Byte getConstant() {
         return MessageTypeConstants.DialogNoticeResponseMessage;

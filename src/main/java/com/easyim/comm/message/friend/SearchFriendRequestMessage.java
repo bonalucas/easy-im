@@ -28,6 +28,18 @@ public class SearchFriendRequestMessage extends Message {
      */
     private String searchKey;
 
+    public SearchFriendRequestMessage(String messageId, Boolean status) {
+        super.setMessageId(messageId);
+        super.setStatus(status);
+    }
+
+    public SearchFriendRequestMessage(String messageId, Boolean status, String userId, String searchKey) {
+        super.setMessageId(messageId);
+        super.setStatus(status);
+        this.userId = userId;
+        this.searchKey = searchKey;
+    }
+
     @Override
     public Byte getConstant() {
         return MessageTypeConstants.SearchFriendRequestMessage;

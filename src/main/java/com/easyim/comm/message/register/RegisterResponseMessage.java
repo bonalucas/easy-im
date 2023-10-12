@@ -23,6 +23,17 @@ public class RegisterResponseMessage extends Message {
      */
     private String responseMsg;
 
+    public RegisterResponseMessage(String messageId, Boolean status) {
+        super.setMessageId(messageId);
+        super.setStatus(status);
+    }
+
+    public RegisterResponseMessage(String messageId, Boolean status, String responseMsg) {
+        super.setMessageId(messageId);
+        super.setStatus(status);
+        this.responseMsg = responseMsg;
+    }
+
     @Override
     public Byte getConstant() {
         return MessageTypeConstants.RegisterResponseMessage;

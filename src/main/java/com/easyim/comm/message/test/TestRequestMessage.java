@@ -15,8 +15,20 @@ public class TestRequestMessage extends Message {
 
     private String content;
 
+    public TestRequestMessage(String messageId, Boolean status) {
+        super.setMessageId(messageId);
+        super.setStatus(status);
+    }
+
+    public TestRequestMessage(String messageId, Boolean status, String content) {
+        super.setMessageId(messageId);
+        super.setStatus(status);
+        this.content = content;
+    }
+
     @Override
     public Byte getConstant() {
         return MessageTypeConstants.TestRequestMessage;
     }
+
 }

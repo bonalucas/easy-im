@@ -17,7 +17,7 @@ public class TestMessageHandler extends SimpleChannelInboundHandler<TestRequestM
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, TestRequestMessage msg) throws Exception {
         log.info("测试消息处理请求：{}", JSON.toJSONString(msg));
-        TestResponseMessage responseMessage = new TestResponseMessage(msg.getContent());
+        TestResponseMessage responseMessage = new TestResponseMessage(msg.getMessageId(), true, msg.getContent());
         ctx.writeAndFlush(responseMessage);
     }
 

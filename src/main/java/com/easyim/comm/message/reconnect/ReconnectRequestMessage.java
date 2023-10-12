@@ -23,6 +23,17 @@ public class ReconnectRequestMessage extends Message {
      */
     private String userId;
 
+    public ReconnectRequestMessage(String messageId, Boolean status) {
+        super.setMessageId(messageId);
+        super.setStatus(status);
+    }
+
+    public ReconnectRequestMessage(String messageId, Boolean status, String userId) {
+        super.setMessageId(messageId);
+        super.setStatus(status);
+        this.userId = userId;
+    }
+
     @Override
     public Byte getConstant() {
         return MessageTypeConstants.ReconnectRequestMessage;

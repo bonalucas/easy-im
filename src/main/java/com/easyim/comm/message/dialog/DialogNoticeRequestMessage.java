@@ -33,6 +33,19 @@ public class DialogNoticeRequestMessage extends Message {
      */
     private Integer dialogType;
 
+    public DialogNoticeRequestMessage(String messageId, Boolean status) {
+        super.setMessageId(messageId);
+        super.setStatus(status);
+    }
+
+    public DialogNoticeRequestMessage(String messageId, Boolean status, String senderId, String receiverId, Integer dialogType) {
+        super.setMessageId(messageId);
+        super.setStatus(status);
+        this.senderId = senderId;
+        this.receiverId = receiverId;
+        this.dialogType = dialogType;
+    }
+
     @Override
     public Byte getConstant() {
         return MessageTypeConstants.DialogNoticeRequestMessage;

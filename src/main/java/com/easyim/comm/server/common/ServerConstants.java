@@ -1,4 +1,4 @@
-package com.easyim.server.common;
+package com.easyim.comm.server.common;
 
 /**
  * 枚举信息定义类

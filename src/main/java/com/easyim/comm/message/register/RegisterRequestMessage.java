@@ -2,19 +2,12 @@ package com.easyim.comm.message.register;
 
 import com.easyim.comm.message.Message;
 import com.easyim.comm.message.MessageTypeConstants;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 /**
  * 注册请求信息
  *
  * @author 单程车票
  */
-@Data
-@EqualsAndHashCode(callSuper = false)
-@NoArgsConstructor
 public class RegisterRequestMessage extends Message {
 
     /**
@@ -37,17 +30,47 @@ public class RegisterRequestMessage extends Message {
      */
     private String avatar;
 
-    public RegisterRequestMessage(String messageId, Boolean status) {
+    public RegisterRequestMessage(long messageId) {
         super.setMessageId(messageId);
-        super.setStatus(status);
     }
 
-    public RegisterRequestMessage(String messageId, Boolean status, String username, String password, String nickname, String avatar) {
+    public RegisterRequestMessage(long messageId, String username, String password, String nickname, String avatar) {
         super.setMessageId(messageId);
-        super.setStatus(status);
         this.username = username;
         this.password = password;
         this.nickname = nickname;
+        this.avatar = avatar;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
 

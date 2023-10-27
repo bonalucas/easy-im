@@ -1,9 +1,5 @@
 package com.easyim.comm.message.login.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.util.Date;
 import java.util.List;
 
@@ -12,9 +8,6 @@ import java.util.List;
  *
  * @author 单程车票
  */
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class DialogDto {
 
     /**
@@ -51,5 +44,74 @@ public class DialogDto {
      * 聊天记录
      */
     private List<RecordDto> RecordList;
+
+    public DialogDto() {
+    }
+
+    public DialogDto(String dialogId, Integer dialogType, String name, String avatar, String sketch, Date now, List<RecordDto> recordList) {
+        this.dialogId = dialogId;
+        this.dialogType = dialogType;
+        this.name = name;
+        this.avatar = avatar;
+        this.sketch = sketch;
+        this.now = now;
+        RecordList = recordList;
+    }
+
+    public String getDialogId() {
+        return dialogId;
+    }
+
+    public void setDialogId(String dialogId) {
+        this.dialogId = dialogId;
+    }
+
+    public Integer getDialogType() {
+        return dialogType;
+    }
+
+    public void setDialogType(Integer dialogType) {
+        this.dialogType = dialogType;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getSketch() {
+        return sketch;
+    }
+
+    public void setSketch(String sketch) {
+        this.sketch = sketch;
+    }
+
+    public Date getNow() {
+        return now;
+    }
+
+    public void setNow(Date now) {
+        this.now = now;
+    }
+
+    public List<RecordDto> getRecordList() {
+        return RecordList;
+    }
+
+    public void setRecordList(List<RecordDto> recordList) {
+        RecordList = recordList;
+    }
 
 }

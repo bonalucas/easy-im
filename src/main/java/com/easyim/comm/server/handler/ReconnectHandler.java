@@ -1,8 +1,8 @@
-package com.easyim.server.handler;
+package com.easyim.comm.server.handler;
 
 import com.alibaba.fastjson.JSON;
 import com.easyim.comm.message.reconnect.ReconnectRequestMessage;
-import com.easyim.server.common.ServerChannelUtil;
+import com.easyim.comm.server.common.ServerChannelUtil;
 import com.easyim.service.MemberService;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;

@@ -2,20 +2,12 @@ package com.easyim.comm.message.friend;
 
 import com.easyim.comm.message.Message;
 import com.easyim.comm.message.MessageTypeConstants;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 /**
  * 添加好友请求消息
  *
  * @author 单程车票
  */
-@Data
-@EqualsAndHashCode(callSuper = false)
-@NoArgsConstructor
-@AllArgsConstructor
 public class AddFriendRequestMessage extends Message {
 
     /**
@@ -28,15 +20,29 @@ public class AddFriendRequestMessage extends Message {
      */
     private String friendId;
 
-    public AddFriendRequestMessage(String messageId, Boolean status) {
+    public AddFriendRequestMessage(long messageId) {
         super.setMessageId(messageId);
-        super.setStatus(status);
     }
 
-    public AddFriendRequestMessage(String messageId, Boolean status, String userId, String friendId) {
+    public AddFriendRequestMessage(long messageId, String userId, String friendId) {
         super.setMessageId(messageId);
-        super.setStatus(status);
         this.userId = userId;
+        this.friendId = friendId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getFriendId() {
+        return friendId;
+    }
+
+    public void setFriendId(String friendId) {
         this.friendId = friendId;
     }
 
@@ -44,4 +50,5 @@ public class AddFriendRequestMessage extends Message {
     public Byte getConstant() {
         return MessageTypeConstants.AddFriendRequestMessage;
     }
+
 }

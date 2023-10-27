@@ -2,10 +2,6 @@ package com.easyim.comm.message.chat;
 
 import com.easyim.comm.message.Message;
 import com.easyim.comm.message.MessageTypeConstants;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -14,10 +10,6 @@ import java.util.Date;
  *
  * @author 单程车票
  */
-@Data
-@EqualsAndHashCode(callSuper = false)
-@AllArgsConstructor
-@NoArgsConstructor
 public class ChatRequestMessage extends Message {
 
     /**
@@ -40,17 +32,47 @@ public class ChatRequestMessage extends Message {
      */
     private Date now;
 
-    public ChatRequestMessage(String messageId, Boolean status) {
+    public ChatRequestMessage(long messageId) {
         super.setMessageId(messageId);
-        super.setStatus(status);
     }
 
-    public ChatRequestMessage(String messageId, Boolean status, String senderId, String receiverId, String content, Date now) {
+    public ChatRequestMessage(long messageId, String senderId, String receiverId, String content, Date now) {
         super.setMessageId(messageId);
-        super.setStatus(status);
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.content = content;
+        this.now = now;
+    }
+
+    public String getSenderId() {
+        return senderId;
+    }
+
+    public void setSenderId(String senderId) {
+        this.senderId = senderId;
+    }
+
+    public String getReceiverId() {
+        return receiverId;
+    }
+
+    public void setReceiverId(String receiverId) {
+        this.receiverId = receiverId;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Date getNow() {
+        return now;
+    }
+
+    public void setNow(Date now) {
         this.now = now;
     }
 

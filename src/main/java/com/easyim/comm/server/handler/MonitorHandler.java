@@ -1,6 +1,6 @@
-package com.easyim.server.handler;
+package com.easyim.comm.server.handler;
 
-import com.easyim.server.common.ServerChannelUtil;
+import com.easyim.comm.server.common.ServerChannelUtil;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -21,7 +21,7 @@ public class MonitorHandler extends ChannelInboundHandlerAdapter {
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         super.channelActive(ctx);
         // 监控日志
-        log.info("客户端建立连接：{}", ctx.channel());
+        log.info("客户端 {} 建立连接", ctx.channel().remoteAddress());
     }
 
     @Override
@@ -32,6 +32,8 @@ public class MonitorHandler extends ChannelInboundHandlerAdapter {
         ServerChannelUtil.removeAllGroup(ctx.channel());
         // 监控日志
         log.info("客户端断开连接：{}", ctx.channel());
+        // 关闭连接
+        ctx.close();
     }
 
     @Override
@@ -41,6 +43,8 @@ public class MonitorHandler extends ChannelInboundHandlerAdapter {
         ServerChannelUtil.removeAllGroup(ctx.channel());
         // 监控日志
         log.error("服务器异常断开连接：{}", cause.getMessage());
+        // 关闭连接
+        ctx.close();
     }
 
 }

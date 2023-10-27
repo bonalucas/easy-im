@@ -2,20 +2,12 @@ package com.easyim.comm.message.file;
 
 import com.easyim.comm.message.Message;
 import com.easyim.comm.message.MessageTypeConstants;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 /**
  * 文件上传请求消息
  *
  * @author 单程车票
  */
-@Data
-@EqualsAndHashCode(callSuper = false)
-@AllArgsConstructor
-@NoArgsConstructor
 public class FileUploadRequestMessage extends Message {
 
     /**
@@ -33,16 +25,38 @@ public class FileUploadRequestMessage extends Message {
      */
     private byte[] fileContent;
 
-    public FileUploadRequestMessage(String messageId, Boolean status) {
+    public FileUploadRequestMessage(long messageId) {
         super.setMessageId(messageId);
-        super.setStatus(status);
     }
 
-    public FileUploadRequestMessage(String messageId, Boolean status, String fileName, long fileSize, byte[] fileContent) {
+    public FileUploadRequestMessage(long messageId, String fileName, long fileSize, byte[] fileContent) {
         super.setMessageId(messageId);
-        super.setStatus(status);
         this.fileName = fileName;
         this.fileSize = fileSize;
+        this.fileContent = fileContent;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public long getFileSize() {
+        return fileSize;
+    }
+
+    public void setFileSize(long fileSize) {
+        this.fileSize = fileSize;
+    }
+
+    public byte[] getFileContent() {
+        return fileContent;
+    }
+
+    public void setFileContent(byte[] fileContent) {
         this.fileContent = fileContent;
     }
 
@@ -50,4 +64,5 @@ public class FileUploadRequestMessage extends Message {
     public Byte getConstant() {
         return MessageTypeConstants.FileUploadRequestMessage;
     }
+
 }

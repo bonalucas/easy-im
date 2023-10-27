@@ -3,7 +3,7 @@ package com.easyim.service;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.easyim.server.common.ServerConstants;
+import com.easyim.comm.server.common.ServerConstants;
 import com.easyim.dal.dataobject.DialogDO;
 import com.easyim.dal.mapper.DialogMapper;
 import org.apache.commons.lang3.StringUtils;

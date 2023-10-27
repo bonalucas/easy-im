@@ -2,20 +2,12 @@ package com.easyim.comm.message.dialog;
 
 import com.easyim.comm.message.Message;
 import com.easyim.comm.message.MessageTypeConstants;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 /**
  * 对话请求消息
  *
  * @author 单程车票
  */
-@Data
-@EqualsAndHashCode(callSuper = false)
-@AllArgsConstructor
-@NoArgsConstructor
 public class DialogNoticeRequestMessage extends Message {
 
     /**
@@ -33,16 +25,38 @@ public class DialogNoticeRequestMessage extends Message {
      */
     private Integer dialogType;
 
-    public DialogNoticeRequestMessage(String messageId, Boolean status) {
+    public DialogNoticeRequestMessage(long messageId) {
         super.setMessageId(messageId);
-        super.setStatus(status);
     }
 
-    public DialogNoticeRequestMessage(String messageId, Boolean status, String senderId, String receiverId, Integer dialogType) {
+    public DialogNoticeRequestMessage(long messageId, String senderId, String receiverId, Integer dialogType) {
         super.setMessageId(messageId);
-        super.setStatus(status);
         this.senderId = senderId;
         this.receiverId = receiverId;
+        this.dialogType = dialogType;
+    }
+
+    public String getSenderId() {
+        return senderId;
+    }
+
+    public void setSenderId(String senderId) {
+        this.senderId = senderId;
+    }
+
+    public String getReceiverId() {
+        return receiverId;
+    }
+
+    public void setReceiverId(String receiverId) {
+        this.receiverId = receiverId;
+    }
+
+    public Integer getDialogType() {
+        return dialogType;
+    }
+
+    public void setDialogType(Integer dialogType) {
         this.dialogType = dialogType;
     }
 

@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * 聊天记录业务实现类

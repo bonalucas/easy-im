@@ -4,15 +4,19 @@ import com.easyim.comm.message.Message;
 import com.easyim.comm.message.MessageTypeConstants;
 
 /**
- * 心跳请求消息
+ * 心跳响应消息
  *
  * @author 单程车票
  */
-public class HeartBeatRequestMessage extends Message {
+public class PongMessage extends Message {
+
+    public PongMessage(Long messageId) {
+        super.setMessageId(messageId);
+    }
 
     @Override
     public Byte getConstant() {
-        return MessageTypeConstants.HeartBeatRequestMessage;
+        return MessageTypeConstants.PongMessage;
     }
 
 }

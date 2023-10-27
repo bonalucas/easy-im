@@ -1,8 +1,9 @@
-package com.easyim.server.handler;
+package com.easyim.comm.server.handler;
 
 import com.alibaba.fastjson.JSON;
 import com.easyim.comm.message.file.FileUploadRequestMessage;
 import com.easyim.comm.message.file.FileUploadResponseMessage;
+import com.easyim.comm.server.common.SnowflakeIDGenerator;
 import com.easyim.service.FileService;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -37,7 +38,7 @@ public class FileUploadHandler extends SimpleChannelInboundHandler<FileUploadReq
             log.error("文件上传失败");
         }
         // 推送回客户端文件访问地址
-        ctx.writeAndFlush(new FileUploadResponseMessage(fileUrl));
+        ctx.writeAndFlush(new FileUploadResponseMessage(SnowflakeIDGenerator.generateID(), fileUrl));
     }
 
 }

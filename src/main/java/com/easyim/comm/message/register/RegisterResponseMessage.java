@@ -2,20 +2,12 @@ package com.easyim.comm.message.register;
 
 import com.easyim.comm.message.Message;
 import com.easyim.comm.message.MessageTypeConstants;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 /**
  * 注册响应信息
  *
  * @author 单程车票
  */
-@Data
-@EqualsAndHashCode(callSuper = false)
-@AllArgsConstructor
-@NoArgsConstructor
 public class RegisterResponseMessage extends Message {
 
     /**
@@ -23,14 +15,20 @@ public class RegisterResponseMessage extends Message {
      */
     private String responseMsg;
 
-    public RegisterResponseMessage(String messageId, Boolean status) {
+    public RegisterResponseMessage(long messageId) {
         super.setMessageId(messageId);
-        super.setStatus(status);
     }
 
-    public RegisterResponseMessage(String messageId, Boolean status, String responseMsg) {
+    public RegisterResponseMessage(long messageId, String responseMsg) {
         super.setMessageId(messageId);
-        super.setStatus(status);
+        this.responseMsg = responseMsg;
+    }
+
+    public String getResponseMsg() {
+        return responseMsg;
+    }
+
+    public void setResponseMsg(String responseMsg) {
         this.responseMsg = responseMsg;
     }
 

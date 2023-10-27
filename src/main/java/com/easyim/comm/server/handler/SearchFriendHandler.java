@@ -1,12 +1,13 @@
-package com.easyim.server.handler;
+package com.easyim.comm.server.handler;
 
 import com.alibaba.fastjson.JSON;
 import com.easyim.comm.message.friend.SearchFriendRequestMessage;
 import com.easyim.comm.message.friend.SearchFriendResponseMessage;
 import com.easyim.comm.message.friend.dto.UserDto;
+import com.easyim.comm.server.common.ServerConstants;
+import com.easyim.comm.server.common.SnowflakeIDGenerator;
 import com.easyim.convert.UserConvert;
 import com.easyim.dal.dataobject.UserDO;
-import com.easyim.server.common.ServerConstants;
 import com.easyim.service.FriendService;
 import com.easyim.service.UserService;
 import io.netty.channel.ChannelHandler;
@@ -52,7 +53,7 @@ public class SearchFriendHandler extends SimpleChannelInboundHandler<SearchFrien
                 userDto.setStatus(ServerConstants.UserStatus.UN_ADD.getCode());
             }
         }
-        SearchFriendResponseMessage response = new SearchFriendResponseMessage();
+        SearchFriendResponseMessage response = new SearchFriendResponseMessage(SnowflakeIDGenerator.generateID());
         response.setList(userDtoList);
         ctx.writeAndFlush(response);
     }

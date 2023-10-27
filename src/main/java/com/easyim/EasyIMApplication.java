@@ -1,14 +1,11 @@
 package com.easyim;
 
-import com.easyim.server.NettyServer;
-import io.netty.channel.Channel;
+import com.easyim.comm.server.NettyServer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * Easy-IM 服务器启动类

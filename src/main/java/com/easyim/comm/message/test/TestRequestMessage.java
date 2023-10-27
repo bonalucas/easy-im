@@ -2,27 +2,17 @@ package com.easyim.comm.message.test;
 
 import com.easyim.comm.message.Message;
 import com.easyim.comm.message.MessageTypeConstants;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
-@AllArgsConstructor
-@NoArgsConstructor
 public class TestRequestMessage extends Message {
 
     private String content;
 
-    public TestRequestMessage(String messageId, Boolean status) {
+    public TestRequestMessage(long messageId) {
         super.setMessageId(messageId);
-        super.setStatus(status);
     }
 
-    public TestRequestMessage(String messageId, Boolean status, String content) {
+    public TestRequestMessage(long messageId, String content) {
         super.setMessageId(messageId);
-        super.setStatus(status);
         this.content = content;
     }
 
@@ -31,4 +21,11 @@ public class TestRequestMessage extends Message {
         return MessageTypeConstants.TestRequestMessage;
     }
 
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 }

@@ -5,10 +5,6 @@ import com.easyim.comm.message.MessageTypeConstants;
 import com.easyim.comm.message.login.dto.DialogDto;
 import com.easyim.comm.message.login.dto.FriendDto;
 import com.easyim.comm.message.login.dto.GroupDto;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -17,10 +13,6 @@ import java.util.List;
  *
  * @author 单程车票
  */
-@Data
-@EqualsAndHashCode(callSuper = false)
-@NoArgsConstructor
-@AllArgsConstructor
 public class LoginResponseMessage extends Message {
 
     /**
@@ -53,19 +45,65 @@ public class LoginResponseMessage extends Message {
      */
     private List<FriendDto> friendList;
 
-    public LoginResponseMessage(String messageId, Boolean status) {
+    public LoginResponseMessage(long messageId) {
         super.setMessageId(messageId);
-        super.setStatus(status);
     }
 
-    public LoginResponseMessage(String messageId, Boolean status, String userId, String userAvatar, String userNickname, List<DialogDto> dialogList, List<GroupDto> groupList, List<FriendDto> friendList) {
+    public LoginResponseMessage(long messageId, String userId, String userAvatar, String userNickname, List<DialogDto> dialogList, List<GroupDto> groupList, List<FriendDto> friendList) {
         super.setMessageId(messageId);
-        super.setStatus(status);
         this.userId = userId;
         this.userAvatar = userAvatar;
         this.userNickname = userNickname;
         this.dialogList = dialogList;
         this.groupList = groupList;
+        this.friendList = friendList;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getUserAvatar() {
+        return userAvatar;
+    }
+
+    public void setUserAvatar(String userAvatar) {
+        this.userAvatar = userAvatar;
+    }
+
+    public String getUserNickname() {
+        return userNickname;
+    }
+
+    public void setUserNickname(String userNickname) {
+        this.userNickname = userNickname;
+    }
+
+    public List<DialogDto> getDialogList() {
+        return dialogList;
+    }
+
+    public void setDialogList(List<DialogDto> dialogList) {
+        this.dialogList = dialogList;
+    }
+
+    public List<GroupDto> getGroupList() {
+        return groupList;
+    }
+
+    public void setGroupList(List<GroupDto> groupList) {
+        this.groupList = groupList;
+    }
+
+    public List<FriendDto> getFriendList() {
+        return friendList;
+    }
+
+    public void setFriendList(List<FriendDto> friendList) {
         this.friendList = friendList;
     }
 

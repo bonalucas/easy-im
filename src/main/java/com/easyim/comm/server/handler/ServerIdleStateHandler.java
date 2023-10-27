@@ -1,4 +1,4 @@
-package com.easyim.server.handler;
+package com.easyim.comm.server.handler;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.timeout.IdleState;

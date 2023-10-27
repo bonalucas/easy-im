@@ -3,10 +3,6 @@ package com.easyim.comm.message.friend;
 import com.easyim.comm.message.Message;
 import com.easyim.comm.message.MessageTypeConstants;
 import com.easyim.comm.message.friend.dto.UserDto;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -15,10 +11,6 @@ import java.util.List;
  *
  * @author 单程车票
  */
-@Data
-@EqualsAndHashCode(callSuper = false)
-@NoArgsConstructor
-@AllArgsConstructor
 public class SearchFriendResponseMessage extends Message {
 
     /**
@@ -26,14 +18,20 @@ public class SearchFriendResponseMessage extends Message {
      */
     private List<UserDto> list;
 
-    public SearchFriendResponseMessage(String messageId, Boolean status) {
+    public SearchFriendResponseMessage(long messageId) {
         super.setMessageId(messageId);
-        super.setStatus(status);
     }
 
-    public SearchFriendResponseMessage(String messageId, Boolean status, List<UserDto> list) {
+    public SearchFriendResponseMessage(long messageId, List<UserDto> list) {
         super.setMessageId(messageId);
-        super.setStatus(status);
+        this.list = list;
+    }
+
+    public List<UserDto> getList() {
+        return list;
+    }
+
+    public void setList(List<UserDto> list) {
         this.list = list;
     }
 

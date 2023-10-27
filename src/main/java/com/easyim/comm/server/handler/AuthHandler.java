@@ -1,6 +1,6 @@
-package com.easyim.server.handler;
+package com.easyim.comm.server.handler;
 
-import com.easyim.server.common.ServerChannelUtil;
+import com.easyim.comm.server.common.ServerChannelUtil;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;

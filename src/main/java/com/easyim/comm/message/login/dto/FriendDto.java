@@ -1,17 +1,10 @@
 package com.easyim.comm.message.login.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 /**
  * 好友 Dto
  *
  * @author 单程车票
  */
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class FriendDto {
 
     /**
@@ -28,5 +21,38 @@ public class FriendDto {
      * 好友头像
      */
     private String friendAvatar;
+
+    public FriendDto() {
+    }
+
+    public FriendDto(String friendId, String friendName, String friendAvatar) {
+        this.friendId = friendId;
+        this.friendName = friendName;
+        this.friendAvatar = friendAvatar;
+    }
+
+    public String getFriendId() {
+        return friendId;
+    }
+
+    public void setFriendId(String friendId) {
+        this.friendId = friendId;
+    }
+
+    public String getFriendName() {
+        return friendName;
+    }
+
+    public void setFriendName(String friendName) {
+        this.friendName = friendName;
+    }
+
+    public String getFriendAvatar() {
+        return friendAvatar;
+    }
+
+    public void setFriendAvatar(String friendAvatar) {
+        this.friendAvatar = friendAvatar;
+    }
 
 }

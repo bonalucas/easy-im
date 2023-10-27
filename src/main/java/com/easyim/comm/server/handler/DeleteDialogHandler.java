@@ -1,4 +1,4 @@
-package com.easyim.server.handler;
+package com.easyim.comm.server.handler;
 
 import com.alibaba.fastjson2.JSON;
 import com.easyim.comm.message.dialog.DeleteDialogRequestMessage;

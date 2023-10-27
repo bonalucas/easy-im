@@ -2,20 +2,12 @@ package com.easyim.comm.message.friend;
 
 import com.easyim.comm.message.Message;
 import com.easyim.comm.message.MessageTypeConstants;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 /**
  * 添加好友响应消息
  *
  * @author 单程车票
  */
-@Data
-@EqualsAndHashCode(callSuper = false)
-@NoArgsConstructor
-@AllArgsConstructor
 public class AddFriendResponseMessage extends Message {
 
     /**
@@ -33,16 +25,38 @@ public class AddFriendResponseMessage extends Message {
      */
     private String friendAvatar;
 
-    public AddFriendResponseMessage(String messageId, Boolean status) {
+    public AddFriendResponseMessage(long messageId) {
         super.setMessageId(messageId);
-        super.setStatus(status);
     }
 
-    public AddFriendResponseMessage(String messageId, Boolean status, String friendId, String friendNickname, String friendAvatar) {
+    public AddFriendResponseMessage(long messageId, String friendId, String friendNickname, String friendAvatar) {
         super.setMessageId(messageId);
-        super.setStatus(status);
         this.friendId = friendId;
         this.friendNickname = friendNickname;
+        this.friendAvatar = friendAvatar;
+    }
+
+    public String getFriendId() {
+        return friendId;
+    }
+
+    public void setFriendId(String friendId) {
+        this.friendId = friendId;
+    }
+
+    public String getFriendNickname() {
+        return friendNickname;
+    }
+
+    public void setFriendNickname(String friendNickname) {
+        this.friendNickname = friendNickname;
+    }
+
+    public String getFriendAvatar() {
+        return friendAvatar;
+    }
+
+    public void setFriendAvatar(String friendAvatar) {
         this.friendAvatar = friendAvatar;
     }
 

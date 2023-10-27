@@ -2,20 +2,12 @@ package com.easyim.comm.message.reconnect;
 
 import com.easyim.comm.message.Message;
 import com.easyim.comm.message.MessageTypeConstants;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 /**
  * 断线重连请求消息
  *
  * @author 单程车票
  */
-@Data
-@EqualsAndHashCode(callSuper = false)
-@AllArgsConstructor
-@NoArgsConstructor
 public class ReconnectRequestMessage extends Message {
 
     /**
@@ -23,14 +15,20 @@ public class ReconnectRequestMessage extends Message {
      */
     private String userId;
 
-    public ReconnectRequestMessage(String messageId, Boolean status) {
+    public ReconnectRequestMessage(long messageId) {
         super.setMessageId(messageId);
-        super.setStatus(status);
     }
 
-    public ReconnectRequestMessage(String messageId, Boolean status, String userId) {
+    public ReconnectRequestMessage(long messageId, String userId) {
         super.setMessageId(messageId);
-        super.setStatus(status);
+        this.userId = userId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -38,4 +36,5 @@ public class ReconnectRequestMessage extends Message {
     public Byte getConstant() {
         return MessageTypeConstants.ReconnectRequestMessage;
     }
+
 }

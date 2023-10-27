@@ -1,10 +1,11 @@
-package com.easyim.server.handler;
+package com.easyim.comm.server.handler;
 
 import com.alibaba.fastjson.JSON;
 import com.easyim.comm.message.friend.AddFriendRequestMessage;
 import com.easyim.comm.message.friend.AddFriendResponseMessage;
+import com.easyim.comm.server.common.ServerChannelUtil;
+import com.easyim.comm.server.common.SnowflakeIDGenerator;
 import com.easyim.dal.dataobject.UserDO;
-import com.easyim.server.common.ServerChannelUtil;
 import com.easyim.service.FriendService;
 import com.easyim.service.UserService;
 import io.netty.channel.Channel;
@@ -38,7 +39,7 @@ public class AddFriendHandler extends SimpleChannelInboundHandler<AddFriendReque
         friendService.saveFriend(msg.getUserId(), msg.getFriendId());
         // 推送回用户
         UserDO friend = userService.queryUser(msg.getFriendId());
-        ctx.writeAndFlush(new AddFriendResponseMessage(friend.getUserId(), friend.getUserNickname(), friend.getUserAvatar()));
+        ctx.writeAndFlush(new AddFriendResponseMessage(SnowflakeIDGenerator.generateID(), friend.getUserId(), friend.getUserNickname(), friend.getUserAvatar()));
         // 推送回好友
         Channel friendChannel = ServerChannelUtil.getChannel(msg.getFriendId());
         if (friendChannel == null) {
@@ -47,7 +48,7 @@ public class AddFriendHandler extends SimpleChannelInboundHandler<AddFriendReque
             return;
         }
         UserDO user = userService.queryUser(msg.getUserId());
-        friendChannel.writeAndFlush(new AddFriendResponseMessage(user.getUserId(), user.getUserNickname(), user.getUserAvatar()));
+        friendChannel.writeAndFlush(new AddFriendResponseMessage(SnowflakeIDGenerator.generateID(), user.getUserId(), user.getUserNickname(), user.getUserAvatar()));
     }
 
 }

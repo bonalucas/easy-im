@@ -1,4 +1,4 @@
-package com.easyim.server.handler;
+package com.easyim.comm.server.handler;
 
 import com.alibaba.fastjson.JSON;
 import com.easyim.comm.message.login.LoginRequestMessage;
@@ -6,13 +6,14 @@ import com.easyim.comm.message.login.LoginResponseMessage;
 import com.easyim.comm.message.login.dto.DialogDto;
 import com.easyim.comm.message.login.dto.FriendDto;
 import com.easyim.comm.message.login.dto.RecordDto;
+import com.easyim.comm.server.common.ServerChannelUtil;
+import com.easyim.comm.server.common.ServerConstants;
+import com.easyim.comm.server.common.SnowflakeIDGenerator;
 import com.easyim.convert.DialogConvert;
 import com.easyim.convert.GroupConvert;
 import com.easyim.dal.dataobject.DialogDO;
 import com.easyim.dal.dataobject.GroupDO;
 import com.easyim.dal.dataobject.UserDO;
-import com.easyim.server.common.ServerChannelUtil;
-import com.easyim.server.common.ServerConstants;
 import com.easyim.service.*;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -58,8 +59,7 @@ public class LoginHandler extends SimpleChannelInboundHandler<LoginRequestMessag
         log.info("收到登录消息处理请求：{} ", JSON.toJSONString(msg));
         boolean auth = userService.loginAuth(msg.getUserId(), msg.getUserPassword());
         if (!auth) {
-            LoginResponseMessage message = new LoginResponseMessage();
-            message.setStatus(false);
+            LoginResponseMessage message = new LoginResponseMessage(SnowflakeIDGenerator.generateID());
             ctx.writeAndFlush(message);
         }
         // 登录成功加入缓存
@@ -70,7 +70,7 @@ public class LoginHandler extends SimpleChannelInboundHandler<LoginRequestMessag
             ServerChannelUtil.addGroup(groupId, ctx.channel());
         }
         // 封装反馈信息
-        LoginResponseMessage loginResponse = new LoginResponseMessage();
+        LoginResponseMessage loginResponse = new LoginResponseMessage(SnowflakeIDGenerator.generateID());
         // 查询用户信息并填充结果
         UserDO user = userService.queryUser(msg.getUserId());
         loginResponse.setUserId(user.getUserId());

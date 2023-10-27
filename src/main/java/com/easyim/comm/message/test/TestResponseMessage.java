@@ -2,27 +2,25 @@ package com.easyim.comm.message.test;
 
 import com.easyim.comm.message.Message;
 import com.easyim.comm.message.MessageTypeConstants;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
-@AllArgsConstructor
-@NoArgsConstructor
 public class TestResponseMessage extends Message {
 
     private String content;
 
-    public TestResponseMessage(String messageId, Boolean status) {
+    public TestResponseMessage(long messageId) {
         super.setMessageId(messageId);
-        super.setStatus(status);
     }
 
-    public TestResponseMessage(String messageId, Boolean status, String content) {
+    public TestResponseMessage(long messageId, String content) {
         super.setMessageId(messageId);
-        super.setStatus(status);
+        this.content = content;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
         this.content = content;
     }
 

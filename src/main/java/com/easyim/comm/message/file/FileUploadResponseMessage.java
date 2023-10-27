@@ -2,20 +2,12 @@ package com.easyim.comm.message.file;
 
 import com.easyim.comm.message.Message;
 import com.easyim.comm.message.MessageTypeConstants;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 /**
  * 文件上传响应消息
  *
  * @author 单程车票
  */
-@Data
-@EqualsAndHashCode(callSuper = false)
-@AllArgsConstructor
-@NoArgsConstructor
 public class FileUploadResponseMessage extends Message {
 
     /**
@@ -23,14 +15,20 @@ public class FileUploadResponseMessage extends Message {
      */
     private String fileUrl;
 
-    public FileUploadResponseMessage(String messageId, Boolean status) {
+    public FileUploadResponseMessage(long messageId) {
         super.setMessageId(messageId);
-        super.setStatus(status);
     }
 
-    public FileUploadResponseMessage(String messageId, Boolean status, String fileUrl) {
+    public FileUploadResponseMessage(long messageId, String fileUrl) {
         super.setMessageId(messageId);
-        super.setStatus(status);
+        this.fileUrl = fileUrl;
+    }
+
+    public String getFileUrl() {
+        return fileUrl;
+    }
+
+    public void setFileUrl(String fileUrl) {
         this.fileUrl = fileUrl;
     }
 
@@ -38,4 +36,5 @@ public class FileUploadResponseMessage extends Message {
     public Byte getConstant() {
         return MessageTypeConstants.FileUploadResponseMessage;
     }
+
 }

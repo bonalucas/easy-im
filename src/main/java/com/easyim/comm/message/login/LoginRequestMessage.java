@@ -2,20 +2,12 @@ package com.easyim.comm.message.login;
 
 import com.easyim.comm.message.Message;
 import com.easyim.comm.message.MessageTypeConstants;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 /**
  * 登录请求消息类
  *
  * @author 单程车票
  */
-@Data
-@EqualsAndHashCode(callSuper = false)
-@AllArgsConstructor
-@NoArgsConstructor
 public class LoginRequestMessage extends Message {
 
     /**
@@ -28,15 +20,29 @@ public class LoginRequestMessage extends Message {
      */
     private String userPassword;
 
-    public LoginRequestMessage(String messageId, Boolean status) {
+    public LoginRequestMessage(long messageId) {
         super.setMessageId(messageId);
-        super.setStatus(status);
     }
 
-    public LoginRequestMessage(String messageId, Boolean status, String userId, String userPassword) {
+    public LoginRequestMessage(long messageId, String userId, String userPassword) {
         super.setMessageId(messageId);
-        super.setStatus(status);
         this.userId = userId;
+        this.userPassword = userPassword;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getUserPassword() {
+        return userPassword;
+    }
+
+    public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
     }
 

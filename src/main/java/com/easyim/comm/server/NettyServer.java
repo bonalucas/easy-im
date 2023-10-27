@@ -1,4 +1,4 @@
-package com.easyim.server;
+package com.easyim.comm.server;
 
 import com.easyim.config.NettyProperties;
 import io.netty.bootstrap.ServerBootstrap;
@@ -35,14 +35,14 @@ public class NettyServer {
     private static final int MAX_RETRY = 5;
 
     /**
-     * 连接线程池
+     * 负责 ServerChannel 的线程池
      */
-    private final EventLoopGroup connectionGroup = new NioEventLoopGroup(2);
+    private final EventLoopGroup serverChannelGroup = new NioEventLoopGroup(2);
 
     /**
-     * 工作线程池
+     * 负责子 Channel 的线程池
      */
-    private final EventLoopGroup workerGroup = new NioEventLoopGroup();
+    private final EventLoopGroup channelGroup = new NioEventLoopGroup();
 
     @Autowired
     private NettyProperties nettyProperties;
@@ -56,15 +56,16 @@ public class NettyServer {
     public void startServer() {
         try {
             ServerBootstrap bootstrap = new ServerBootstrap();
-            bootstrap.group(connectionGroup, workerGroup);
-            bootstrap.channel(NioServerSocketChannel.class);
-            // 设置请求的队列的最大长度
-            bootstrap.option(ChannelOption.SO_BACKLOG, 1024);
-            // 开启 TCP 心跳机制
-            bootstrap.childOption(ChannelOption.SO_KEEPALIVE, true);
-            // 开启 Nagle 算法（保证高实时性）
-            bootstrap.childOption(ChannelOption.TCP_NODELAY, true);
-            bootstrap.childHandler(serverChannelInitializer);
+            bootstrap.group(serverChannelGroup, channelGroup)
+                    .channel(NioServerSocketChannel.class)
+                    // 设置请求的队列的最大长度
+                    .option(ChannelOption.SO_BACKLOG, 1024)
+                    // 开启 TCP 心跳机制
+                    .childOption(ChannelOption.SO_KEEPALIVE, true)
+                    // 开启 Nagle 算法（保证高实时性）
+                    .childOption(ChannelOption.TCP_NODELAY, true)
+                    .childHandler(serverChannelInitializer);
+            // 绑定方法
             bind(bootstrap, nettyProperties.getIp(), nettyProperties.getPort(), MAX_RETRY);
         } catch (Exception e) {
             log.error("Netty 服务器启动异常：{}", e.getMessage());
@@ -105,8 +106,8 @@ public class NettyServer {
      * 优雅关闭 EventLoop
      */
     public void destroyEventLoop() {
-        connectionGroup.shutdownGracefully();
-        workerGroup.shutdownGracefully();
+        serverChannelGroup.shutdownGracefully();
+        channelGroup.shutdownGracefully();
     }
 
     /**

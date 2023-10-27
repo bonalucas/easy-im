@@ -1,12 +1,13 @@
-package com.easyim.server.handler;
+package com.easyim.comm.server.handler;
 
 import com.alibaba.fastjson.JSON;
 import com.easyim.comm.message.dialog.DialogNoticeRequestMessage;
 import com.easyim.comm.message.dialog.DialogNoticeResponseMessage;
+import com.easyim.comm.server.common.ServerChannelUtil;
+import com.easyim.comm.server.common.ServerConstants;
+import com.easyim.comm.server.common.SnowflakeIDGenerator;
 import com.easyim.dal.dataobject.DialogDO;
 import com.easyim.dal.dataobject.UserDO;
-import com.easyim.server.common.ServerChannelUtil;
-import com.easyim.server.common.ServerConstants;
 import com.easyim.service.DialogService;
 import com.easyim.service.UserService;
 import io.netty.channel.Channel;
@@ -45,7 +46,7 @@ public class DialogNoticeHandler extends SimpleChannelInboundHandler<DialogNotic
             DialogDO dialog = dialogService.queryDialog(msg.getSenderId(), msg.getReceiverId());
             UserDO user = userService.queryUser(msg.getReceiverId());
             // 构造响应结果
-            DialogNoticeResponseMessage response = new DialogNoticeResponseMessage();
+            DialogNoticeResponseMessage response = new DialogNoticeResponseMessage(SnowflakeIDGenerator.generateID());
             response.setDialogId(dialog.getDialogId());
             response.setName(user.getUserNickname());
             response.setAvatar(user.getUserAvatar());

@@ -2,10 +2,6 @@ package com.easyim.comm.message.dialog;
 
 import com.easyim.comm.message.Message;
 import com.easyim.comm.message.MessageTypeConstants;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -14,10 +10,6 @@ import java.util.Date;
  *
  * @author 单程车票
  */
-@Data
-@EqualsAndHashCode(callSuper = false)
-@AllArgsConstructor
-@NoArgsConstructor
 public class DialogNoticeResponseMessage extends Message {
 
     /**
@@ -45,18 +37,56 @@ public class DialogNoticeResponseMessage extends Message {
      */
     private Date now;
 
-    public DialogNoticeResponseMessage(String messageId, Boolean status) {
+    public DialogNoticeResponseMessage(long messageId) {
         super.setMessageId(messageId);
-        super.setStatus(status);
     }
 
-    public DialogNoticeResponseMessage(String messageId, Boolean status, String dialogId, String name, String avatar, String sketch, Date now) {
+    public DialogNoticeResponseMessage(long messageId, String dialogId, String name, String avatar, String sketch, Date now) {
         super.setMessageId(messageId);
-        super.setStatus(status);
         this.dialogId = dialogId;
         this.name = name;
         this.avatar = avatar;
         this.sketch = sketch;
+        this.now = now;
+    }
+
+    public String getDialogId() {
+        return dialogId;
+    }
+
+    public void setDialogId(String dialogId) {
+        this.dialogId = dialogId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getSketch() {
+        return sketch;
+    }
+
+    public void setSketch(String sketch) {
+        this.sketch = sketch;
+    }
+
+    public Date getNow() {
+        return now;
+    }
+
+    public void setNow(Date now) {
         this.now = now;
     }
 

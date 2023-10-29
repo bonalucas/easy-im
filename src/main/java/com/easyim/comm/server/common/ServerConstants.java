@@ -73,4 +73,8 @@ public class ServerConstants {
         }
     }
 
+    public interface EasyIMError {
+
+    }
+
 }

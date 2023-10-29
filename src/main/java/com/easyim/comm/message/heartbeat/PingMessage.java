@@ -10,10 +10,6 @@ import com.easyim.comm.message.MessageTypeConstants;
  */
 public class PingMessage extends Message {
 
-    public PingMessage(Long messageId) {
-        super.setMessageId(messageId);
-    }
-
     @Override
     public Byte getConstant() {
         return MessageTypeConstants.PingMessage;

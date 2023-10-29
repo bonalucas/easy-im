@@ -1,13 +1,12 @@
 package com.easyim.comm.server.handler;
 
+import com.alibaba.fastjson.JSON;
 import com.easyim.comm.message.heartbeat.PingMessage;
 import com.easyim.comm.message.heartbeat.PongMessage;
-import com.easyim.comm.server.common.SnowflakeIDGenerator;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 /**
  * 心跳包处理器
@@ -15,15 +14,27 @@ import org.springframework.stereotype.Component;
  * @author 单程车票
  */
 @Slf4j
-@Component
 @ChannelHandler.Sharable
 public class HeartBeatHandler extends SimpleChannelInboundHandler<PingMessage> {
 
+    /**
+     * 静态内部类（单例模式）
+     */
+    private static class HeartBeatHandlerInstance {
+        private static final HeartBeatHandler INSTANCE = new HeartBeatHandler();
+    }
+
+    /**
+     * 获取单例模式下的实例
+     */
+    public static HeartBeatHandler getInstance() {
+        return HeartBeatHandlerInstance.INSTANCE;
+    }
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, PingMessage msg) throws Exception {
-        log.info("收到心跳包处理请求");
-        // 收到客户端的心跳包后发送响应心跳包
-        ctx.writeAndFlush(new PongMessage(SnowflakeIDGenerator.generateID()));
+        log.info("心跳消息处理请求：{}", JSON.toJSONString(msg));
+        ctx.writeAndFlush(new PongMessage());
     }
 
 }

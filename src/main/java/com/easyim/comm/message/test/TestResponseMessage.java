@@ -7,6 +7,13 @@ public class TestResponseMessage extends Message {
 
     private String content;
 
+    public TestResponseMessage() {
+    }
+
+    public TestResponseMessage(String content) {
+        this.content = content;
+    }
+
     public TestResponseMessage(long messageId) {
         super.setMessageId(messageId);
     }

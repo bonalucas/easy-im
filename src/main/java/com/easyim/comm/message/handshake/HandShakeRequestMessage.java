@@ -10,10 +10,6 @@ import com.easyim.comm.message.MessageTypeConstants;
  */
 public class HandShakeRequestMessage extends Message {
 
-    public HandShakeRequestMessage(long messageId) {
-        super.setMessageId(messageId);
-    }
-
     @Override
     public Byte getConstant() {
         return MessageTypeConstants.HandShakeRequestMessage;

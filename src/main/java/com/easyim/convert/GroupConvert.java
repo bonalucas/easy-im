@@ -1,11 +1,7 @@
 package com.easyim.convert;
 
-import com.easyim.comm.message.login.dto.GroupDto;
-import com.easyim.dal.dataobject.GroupDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-
-import java.util.List;
 
 
 /**
@@ -18,6 +14,6 @@ public interface GroupConvert {
 
     GroupConvert INSTANCT = Mappers.getMapper(GroupConvert.class);
 
-    List<GroupDto> convertDtoList(List<GroupDO> list);
+//    List<GroupDto> convertDtoList(List<GroupDO> list);
 
 }

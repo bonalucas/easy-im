@@ -1,7 +1,5 @@
 package com.easyim.convert;
 
-import com.easyim.comm.message.login.dto.DialogDto;
-import com.easyim.dal.dataobject.DialogDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -16,6 +14,6 @@ public interface DialogConvert {
 
     DialogConvert INSTANCT = Mappers.getMapper(DialogConvert.class);
 
-    DialogDto convertDto(DialogDO bean);
+//    DialogDto convertDto(DialogDO bean);
 
 }

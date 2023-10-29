@@ -14,21 +14,22 @@ import java.util.concurrent.TimeUnit;
  * @author 单程车票
  */
 @Slf4j
-public class ServerIdleStateHandler extends IdleStateHandler {
+public class EasyIMIdleStateHandler extends IdleStateHandler {
 
-    private static final long READER_IDLE_TIME = 60L;
+    /**
+     * 服务器读事件间隔时间
+     */
+    private static final long READER_IDLE_TIME = 60L * 1000;
 
-    public ServerIdleStateHandler() {
-        super(READER_IDLE_TIME, 0L, 0L, TimeUnit.SECONDS);
+    public EasyIMIdleStateHandler() {
+        super(READER_IDLE_TIME, 0L, 0L, TimeUnit.MILLISECONDS);
     }
 
     @Override
     protected void channelIdle(ChannelHandlerContext ctx, IdleStateEvent evt) {
-        IdleState state = evt.state();
-        if (state == IdleState.READER_IDLE) {
-            log.info("{} 秒内未读到数据，关闭服务器连接", READER_IDLE_TIME);
-            // 关闭对应的客户端连接
-            ctx.channel().close();
+        if (evt.state() == IdleState.READER_IDLE) {
+            log.debug("{} ms内未读到数据，关闭服务器连接", READER_IDLE_TIME);
+            ctx.close();
         }
     }
 

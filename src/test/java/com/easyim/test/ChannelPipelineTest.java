@@ -6,6 +6,7 @@ import com.easyim.comm.protocol.MessageCodec;
 import com.easyim.comm.protocol.ProtobufSerializer;
 import com.easyim.comm.protocol.ProtocolFrameDecoder;
 import com.easyim.comm.server.common.SnowflakeIDGenerator;
+import com.easyim.comm.server.handler.ExceptionHandler;
 import com.easyim.comm.server.handler.TestMessageHandler;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -26,7 +27,8 @@ public class ChannelPipelineTest {
         EmbeddedChannel channel = new EmbeddedChannel(
                         new ProtocolFrameDecoder(),
                         new MessageCodec(),
-                        new TestMessageHandler());
+                        new TestMessageHandler(),
+                        new ExceptionHandler());
         channel.writeInbound(encode(new TestRequestMessage(SnowflakeIDGenerator.generateID(), "hello")));
         channel.finish();
     }

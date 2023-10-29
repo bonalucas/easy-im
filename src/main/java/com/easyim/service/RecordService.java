@@ -1,6 +1,5 @@
 package com.easyim.service;
 
-import com.easyim.comm.message.login.dto.RecordDto;
 import com.easyim.dal.dataobject.RecordDO;
 
 import java.util.List;
@@ -24,7 +23,7 @@ public interface RecordService {
      * @param dialogId 对话ID
      * @return 聊天记录列表
      */
-    List<RecordDto> queryRecordDtoList(String dialogId);
+//    List<RecordDto> queryRecordDtoList(String dialogId);
 
     /**
      * 添加聊天记录

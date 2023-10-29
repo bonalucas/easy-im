@@ -2,7 +2,6 @@ package com.easyim.service;
 
 import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.easyim.comm.message.login.dto.RecordDto;
 import com.easyim.dal.dataobject.RecordDO;
 import com.easyim.dal.mapper.RecordMapper;
 import org.apache.commons.lang3.StringUtils;
@@ -31,10 +30,10 @@ public class RecordServiceImpl implements RecordService {
         return recordMapper.selectList(queryWrapper);
     }
 
-    @Override
-    public List<RecordDto> queryRecordDtoList(String dialogId) {
-        return recordMapper.selectDtoList(dialogId);
-    }
+//    @Override
+//    public List<RecordDto> queryRecordDtoList(String dialogId) {
+//        return recordMapper.selectDtoList(dialogId);
+//    }
 
     @Override
     public void saveRecord(String dialogId, String senderId, String content) {

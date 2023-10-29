@@ -7,6 +7,13 @@ public class TestRequestMessage extends Message {
 
     private String content;
 
+    public TestRequestMessage() {
+    }
+
+    public TestRequestMessage(String content) {
+        this.content = content;
+    }
+
     public TestRequestMessage(long messageId) {
         super.setMessageId(messageId);
     }
@@ -16,16 +23,16 @@ public class TestRequestMessage extends Message {
         this.content = content;
     }
 
-    @Override
-    public Byte getConstant() {
-        return MessageTypeConstants.TestRequestMessage;
-    }
-
     public String getContent() {
         return content;
     }
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    @Override
+    public Byte getConstant() {
+        return MessageTypeConstants.TestRequestMessage;
     }
 }

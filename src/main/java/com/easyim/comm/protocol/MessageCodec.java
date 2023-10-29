@@ -55,8 +55,7 @@ public class MessageCodec extends MessageToMessageCodec<ByteBuf, Message> {
         buffer.writeBytes(msg_bytes);
         // 输出
         out.add(buffer);
-        // 记录日志
-        log.debug("消息：{} 编码成功", JSON.toJSONString(msg));
+        log.debug("消息 【{}】 编码成功", JSON.toJSONString(msg));
     }
 
     @Override
@@ -78,8 +77,7 @@ public class MessageCodec extends MessageToMessageCodec<ByteBuf, Message> {
         Message msg = ProtobufSerializer.deserialize(Message.get(msg_type), msg_bytes);
         // 输出
         out.add(msg);
-        // 记录日志
-        log.debug("消息：{} 解码成功", JSON.toJSONString(msg));
+        log.debug("消息 【{}】 解码成功", JSON.toJSONString(msg));
     }
 
 }

@@ -3,7 +3,6 @@ package com.easyim.comm.server.handler;
 import com.alibaba.fastjson.JSON;
 import com.easyim.comm.message.test.TestRequestMessage;
 import com.easyim.comm.message.test.TestResponseMessage;
-import com.easyim.comm.server.common.SnowflakeIDGenerator;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -18,7 +17,7 @@ public class TestMessageHandler extends SimpleChannelInboundHandler<TestRequestM
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, TestRequestMessage msg) throws Exception {
         log.info("测试消息处理请求：{}", JSON.toJSONString(msg));
-        TestResponseMessage responseMessage = new TestResponseMessage(SnowflakeIDGenerator.generateID(), msg.getContent());
+        TestResponseMessage responseMessage = new TestResponseMessage(msg.getMessageId(), msg.getContent());
         ctx.writeAndFlush(responseMessage);
     }
 

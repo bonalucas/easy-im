@@ -1,7 +1,5 @@
 package com.easyim.convert;
 
-import com.easyim.comm.message.friend.dto.UserDto;
-import com.easyim.dal.dataobject.UserDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -16,6 +14,6 @@ public interface UserConvert {
 
     UserConvert INSTANCT = Mappers.getMapper(UserConvert.class);
 
-    UserDto convertDto(UserDO bean);
+//    UserDto convertDto(UserDO bean);
 
 }

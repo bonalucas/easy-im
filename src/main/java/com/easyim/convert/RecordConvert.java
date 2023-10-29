@@ -1,7 +1,5 @@
 package com.easyim.convert;
 
-import com.easyim.comm.message.login.dto.RecordDto;
-import com.easyim.dal.dataobject.RecordDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -16,6 +14,6 @@ public interface RecordConvert {
 
     RecordConvert INSTANCT = Mappers.getMapper(RecordConvert.class);
 
-    RecordDto convertDto(RecordDO bean);
+//    RecordDto convertDto(RecordDO bean);
 
 }

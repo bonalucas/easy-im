@@ -1,34 +1,12 @@
-server:
-  port: 8888
-
 spring:
   application:
     name: easyim
-  ## 数据库配置
-  datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/easy_im?serverTimezone=UTC&userUnicode=true&useSSL=false&
-    username: root
-    password: 123456
-
-# 日志文件配置路径
-logging:
-  config: classpath:spring-log4j2.xml
-
-# 线程池配置
-thread:
-  coreSize: 10 #核心线程数
-  maxSize: 50 #最大线程数
-  keepAliveTime: 60 #空闲存活时间
-  queueSize: 500 #工作队列长度
 
 # netty 配置
 netty:
   ip: 0.0.0.0
-  port: 8086
+  port: 9043
 
-# minio 配置
-minio:
-  endpoint: http://192.168.101.25:9000
-  accessKey: minio
-  secretKey: minio123
+# 日志文件配置路径
+logging:
+  config: classpath:spring-log4j2.xml

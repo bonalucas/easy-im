@@ -13,10 +13,9 @@ public interface MessageTypeConstants {
     // 心跳消息
     Byte PingMessage = 3;
     Byte PongMessage = 4;
-    // 错误信息
-    Byte ErrorResponseMessage = 5;
     // 业务消息
-    Byte TestRequestMessage = 101;
-    Byte TestResponseMessage = 102;
+    Byte ErrorResponseMessage = 5;
+    Byte MeetingCreateRequestMessage = 6;
+    Byte MeetingCreateResponseMessage = 7;
 
 }

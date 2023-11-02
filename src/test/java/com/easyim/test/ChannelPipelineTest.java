@@ -1,16 +1,14 @@
 package com.easyim.test;
 
 import com.easyim.comm.message.Message;
-import com.easyim.comm.message.test.TestRequestMessage;
 import com.easyim.comm.protocol.MessageCodec;
 import com.easyim.comm.protocol.ProtobufSerializer;
 import com.easyim.comm.protocol.ProtocolFrameDecoder;
-import com.easyim.comm.server.common.SnowflakeIDGenerator;
-import com.easyim.comm.server.handler.ExceptionHandler;
-import com.easyim.comm.server.handler.TestMessageHandler;
+import com.easyim.server.handler.ExceptionHandler;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.embedded.EmbeddedChannel;
+import io.netty.util.AttributeKey;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -27,10 +25,19 @@ public class ChannelPipelineTest {
         EmbeddedChannel channel = new EmbeddedChannel(
                         new ProtocolFrameDecoder(),
                         new MessageCodec(),
-                        new TestMessageHandler(),
                         new ExceptionHandler());
-        channel.writeInbound(encode(new TestRequestMessage(SnowflakeIDGenerator.generateID(), "hello")));
+        channel.writeInbound();
         channel.finish();
+    }
+
+    @Test
+    public void attrTest() {
+        EmbeddedChannel channel = new EmbeddedChannel(
+                new ProtocolFrameDecoder(),
+                new MessageCodec(),
+                new ExceptionHandler());
+        channel.attr(AttributeKey.valueOf("meetingID")).set("123456");
+        System.out.println(channel.attr(AttributeKey.valueOf("meetingID")).get());
     }
 
     private ByteBuf encode(Message message) {

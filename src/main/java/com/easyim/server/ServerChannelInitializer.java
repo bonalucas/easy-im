@@ -7,6 +7,7 @@ import com.easyim.server.handler.ExceptionHandler;
 import com.easyim.server.handler.HandShakeHandler;
 import com.easyim.server.handler.HeartBeatHandler;
 import com.easyim.server.handler.biz.CreateMeetingHandler;
+import com.easyim.server.handler.biz.JoinMeetingHandler;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
@@ -35,6 +36,7 @@ public class ServerChannelInitializer extends ChannelInitializer<SocketChannel> 
         socketChannel.pipeline().addLast("HeartBeat-Handler", HeartBeatHandler.getInstance());
         // 添加自定义业务处理器
         socketChannel.pipeline().addLast("CreateMeeting-Handler", CreateMeetingHandler.getInstance());
+        socketChannel.pipeline().addLast("JoinMeeting-Handler", JoinMeetingHandler.getInstance());
         // 添加异常处理器
         socketChannel.pipeline().addLast("Exception-Handler", ExceptionHandler.getInstance());
     }

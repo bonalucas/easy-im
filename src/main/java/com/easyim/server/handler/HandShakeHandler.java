@@ -10,6 +10,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.AttributeKey;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -53,7 +54,7 @@ public class HandShakeHandler extends SimpleChannelInboundHandler<HandShakeReque
         super.channelInactive(ctx);
         // 移除会议缓存信息
         String meetingID = (String) ctx.channel().attr(AttributeKey.valueOf(Constants.AttributeKeyName.MEETING_ID)).get();
-        ServerSessionUtil.leaveMeeting(meetingID, ctx.channel());
+        if (StringUtils.isNotEmpty(meetingID)) ServerSessionUtil.leaveMeeting(meetingID, ctx.channel());
         log.debug("客户端 【{}】 断开连接", ctx.channel().remoteAddress());
         ctx.close();
         nodeCache.remove(ctx.channel().remoteAddress().toString());

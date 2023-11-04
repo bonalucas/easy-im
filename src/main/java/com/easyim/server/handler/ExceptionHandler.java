@@ -9,6 +9,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.AttributeKey;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 /**
@@ -44,7 +45,7 @@ public class ExceptionHandler extends ChannelInboundHandlerAdapter {
         } else {
             // 系统异常关闭连接
             String meetingID = (String) ctx.channel().attr(AttributeKey.valueOf(Constants.AttributeKeyName.MEETING_ID)).get();
-            ServerSessionUtil.leaveMeeting(meetingID, ctx.channel());
+            if (StringUtils.isNotEmpty(meetingID)) ServerSessionUtil.leaveMeeting(meetingID, ctx.channel());
             log.error("客户端 【{}】 通信异常，断开连接 【cause：{}】", ctx.channel().remoteAddress(), cause.getMessage());
             ctx.close();
         }

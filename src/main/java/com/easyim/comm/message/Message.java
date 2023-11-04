@@ -1,5 +1,7 @@
 package com.easyim.comm.message;
 
+import com.easyim.comm.message.chat.ChatRequestMessage;
+import com.easyim.comm.message.chat.ChatResponseMessage;
 import com.easyim.comm.message.error.ErrorResponseMessage;
 import com.easyim.comm.message.handshake.HandShakeRequestMessage;
 import com.easyim.comm.message.handshake.HandShakeResponseMessage;
@@ -43,6 +45,8 @@ public abstract class Message {
         MAP.put(MessageTypeConstants.CreateMeetingResponseMessage, CreateMeetingResponseMessage.class);
         MAP.put(MessageTypeConstants.JoinMeetingRequestMessage, JoinMeetingRequestMessage.class);
         MAP.put(MessageTypeConstants.JoinMeetingResponseMessage, JoinMeetingResponseMessage.class);
+        MAP.put(MessageTypeConstants.ChatRequestMessage, ChatRequestMessage.class);
+        MAP.put(MessageTypeConstants.ChatResponseMessage, ChatResponseMessage.class);
     }
 
     public Long getMessageId() {

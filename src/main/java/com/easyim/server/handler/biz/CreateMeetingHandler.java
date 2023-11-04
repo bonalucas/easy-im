@@ -1,8 +1,8 @@
-package com.easyim.server.handler;
+package com.easyim.server.handler.biz;
 
 import com.alibaba.fastjson.JSON;
-import com.easyim.comm.message.meeting.MeetingCreateRequestMessage;
-import com.easyim.comm.message.meeting.MeetingCreateResponseMessage;
+import com.easyim.comm.message.meeting.CreateMeetingRequestMessage;
+import com.easyim.comm.message.meeting.CreateMeetingResponseMessage;
 import com.easyim.common.Constants;
 import com.easyim.common.EasyIMException;
 import com.easyim.common.ServerSessionUtil;
@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @ChannelHandler.Sharable
-public class CreateMeetingHandler extends SimpleChannelInboundHandler<MeetingCreateRequestMessage> {
+public class CreateMeetingHandler extends SimpleChannelInboundHandler<CreateMeetingRequestMessage> {
 
     /**
      * 静态内部类（单例模式）
@@ -36,16 +36,16 @@ public class CreateMeetingHandler extends SimpleChannelInboundHandler<MeetingCre
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, MeetingCreateRequestMessage msg) throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, CreateMeetingRequestMessage msg) throws Exception {
         log.debug("创建会议消息处理请求：{}", JSON.toJSONString(msg));
         // 记录通道属性
-        ctx.channel().attr(AttributeKey.valueOf(Constants.AttributeKeyName.USER_NAME)).set(msg.getCreator());
-        ctx.channel().attr(AttributeKey.valueOf(Constants.AttributeKeyName.MEETING_ID)).set(msg.getMeetingID());
+        ctx.channel().attr(AttributeKey.valueOf(Constants.AttributeKeyName.USER_NAME)).set(msg.getNickname());
+        ctx.channel().attr(AttributeKey.valueOf(Constants.AttributeKeyName.MEETING_ID)).set(msg.getMeetingId());
         // 记录会议缓存
-        if (ServerSessionUtil.isExist(msg.getMeetingID())) throw new EasyIMException(msg.getMessageId(), Constants.EasyIMError.MEETING_CONFLICT);
-        ServerSessionUtil.createMeeting(msg.getMeetingID(), msg.getTheme(), ctx.channel());
+        if (ServerSessionUtil.isExist(msg.getMeetingId())) throw new EasyIMException(msg.getMessageId(), Constants.EasyIMError.MEETING_CONFLICT);
+        ServerSessionUtil.createMeeting(msg.getMeetingId(), msg.getTheme(), ctx.channel());
         // 返回响应
-        ctx.writeAndFlush(new MeetingCreateResponseMessage(msg.getMessageId(), msg.getMeetingID(), msg.getCreator(), msg.getTheme()));
+        ctx.writeAndFlush(new CreateMeetingResponseMessage(msg.getMessageId(), msg.getMeetingId(), msg.getTheme(), msg.getNickname()));
     }
 
 }

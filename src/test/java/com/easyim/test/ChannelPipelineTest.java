@@ -5,6 +5,7 @@ import com.easyim.comm.protocol.MessageCodec;
 import com.easyim.comm.protocol.ProtobufSerializer;
 import com.easyim.comm.protocol.ProtocolFrameDecoder;
 import com.easyim.server.handler.ExceptionHandler;
+import com.easyim.server.handler.biz.CreateMeetingHandler;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.embedded.EmbeddedChannel;
@@ -25,6 +26,7 @@ public class ChannelPipelineTest {
         EmbeddedChannel channel = new EmbeddedChannel(
                         new ProtocolFrameDecoder(),
                         new MessageCodec(),
+                        new CreateMeetingHandler(),
                         new ExceptionHandler());
         channel.writeInbound();
         channel.finish();

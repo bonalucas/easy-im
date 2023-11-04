@@ -1,7 +1,7 @@
 package com.easyim.common;
 
 /**
- * 枚举信息定义类
+ * 服务端常量
  *
  * @author 单程车票
  */

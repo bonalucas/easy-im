@@ -2,11 +2,14 @@ package com.easyim.server;
 
 import com.easyim.comm.protocol.MessageCodec;
 import com.easyim.comm.protocol.ProtocolFrameDecoder;
-import com.easyim.server.handler.*;
+import com.easyim.server.handler.EasyIMIdleStateHandler;
+import com.easyim.server.handler.ExceptionHandler;
+import com.easyim.server.handler.HandShakeHandler;
+import com.easyim.server.handler.HeartBeatHandler;
+import com.easyim.server.handler.biz.CreateMeetingHandler;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**

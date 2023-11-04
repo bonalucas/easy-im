@@ -4,8 +4,6 @@ import io.netty.channel.Channel;
 import io.netty.channel.group.ChannelGroup;
 import lombok.*;
 
-import java.util.List;
-
 /**
  * 会议DO
  *

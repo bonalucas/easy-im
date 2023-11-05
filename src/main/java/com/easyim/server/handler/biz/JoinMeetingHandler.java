@@ -6,6 +6,7 @@ import com.easyim.comm.message.meeting.JoinMeetingResponseMessage;
 import com.easyim.common.Constants;
 import com.easyim.common.EasyIMException;
 import com.easyim.common.ServerSessionUtil;
+import com.easyim.pojo.MeetingDO;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -44,8 +45,10 @@ public class JoinMeetingHandler extends SimpleChannelInboundHandler<JoinMeetingR
         // 校验会议存在，加入会议
         if (!ServerSessionUtil.isExist(msg.getMeetingId())) throw new EasyIMException(msg.getMessageId(), Constants.EasyIMError.MEETING_NO_EXIST);
         ServerSessionUtil.addMeeting(msg.getMeetingId(), ctx.channel());
+        // 获取会议主题
+        MeetingDO meeting = ServerSessionUtil.getMeeting(msg.getMeetingId());
         // 返回响应
-        ctx.writeAndFlush(new JoinMeetingResponseMessage(msg.getMessageId(), msg.getMeetingId(), msg.getNickname()));
+        ctx.writeAndFlush(new JoinMeetingResponseMessage(msg.getMessageId(), msg.getMeetingId(), meeting.getTheme(), msg.getNickname()));
     }
 
 }

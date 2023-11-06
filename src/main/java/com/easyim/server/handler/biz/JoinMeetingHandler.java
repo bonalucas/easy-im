@@ -7,9 +7,11 @@ import com.easyim.common.Constants;
 import com.easyim.common.EasyIMException;
 import com.easyim.common.ServerSessionUtil;
 import com.easyim.pojo.MeetingDO;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.channel.group.ChannelGroup;
 import io.netty.util.AttributeKey;
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,8 +49,12 @@ public class JoinMeetingHandler extends SimpleChannelInboundHandler<JoinMeetingR
         ServerSessionUtil.addMeeting(msg.getMeetingId(), ctx.channel());
         // 获取会议主题
         MeetingDO meeting = ServerSessionUtil.getMeeting(msg.getMeetingId());
-        // 返回响应
-        ctx.writeAndFlush(new JoinMeetingResponseMessage(msg.getMessageId(), msg.getMeetingId(), meeting.getTheme(), msg.getNickname()));
+        // 通知会议所有人
+        JoinMeetingResponseMessage message = new JoinMeetingResponseMessage(msg.getMessageId(), msg.getMeetingId(), meeting.getTheme(), msg.getNickname());
+        ChannelGroup channelGroup = meeting.getChannelGroup();
+        for (Channel channel : channelGroup) {
+            channel.writeAndFlush(message);
+        }
     }
 
 }

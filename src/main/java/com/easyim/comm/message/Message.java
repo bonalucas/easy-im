@@ -3,6 +3,8 @@ package com.easyim.comm.message;
 import com.easyim.comm.message.chat.ChatRequestMessage;
 import com.easyim.comm.message.chat.ChatResponseMessage;
 import com.easyim.comm.message.error.ErrorResponseMessage;
+import com.easyim.comm.message.file.FileRequestMessage;
+import com.easyim.comm.message.file.FileResponseMessage;
 import com.easyim.comm.message.handshake.HandShakeRequestMessage;
 import com.easyim.comm.message.handshake.HandShakeResponseMessage;
 import com.easyim.comm.message.heartbeat.PingMessage;
@@ -47,6 +49,8 @@ public abstract class Message {
         MAP.put(MessageTypeConstants.JoinMeetingResponseMessage, JoinMeetingResponseMessage.class);
         MAP.put(MessageTypeConstants.ChatRequestMessage, ChatRequestMessage.class);
         MAP.put(MessageTypeConstants.ChatResponseMessage, ChatResponseMessage.class);
+        MAP.put(MessageTypeConstants.FileRequestMessage, FileRequestMessage.class);
+        MAP.put(MessageTypeConstants.FileResponseMessage, FileResponseMessage.class);
     }
 
     public Long getMessageId() {

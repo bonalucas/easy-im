@@ -22,15 +22,6 @@ public class LeaveMeetingResponseMessage extends Message {
         this.nickname = nickname;
     }
 
-    public LeaveMeetingResponseMessage(long messageId) {
-        super.setMessageId(messageId);
-    }
-
-    public LeaveMeetingResponseMessage(long messageId, String nickname) {
-        super.setMessageId(messageId);
-        this.nickname = nickname;
-    }
-
     public String getNickname() {
         return nickname;
     }

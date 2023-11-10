@@ -56,7 +56,7 @@ public class ExceptionHandler extends ChannelInboundHandlerAdapter {
                 ChannelGroup channelGroup = ServerSessionUtil.getMeetingChannel(meetingID);
                 assert channelGroup != null;
                 for (Channel channel : channelGroup) {
-                    channel.writeAndFlush(new LeaveMeetingResponseMessage(0L, nickname));
+                    channel.writeAndFlush(new LeaveMeetingResponseMessage(nickname));
                 }
             }
             log.error("客户端 【{}】 通信异常，断开连接 【cause：{}】", ctx.channel().remoteAddress(), cause.getMessage());

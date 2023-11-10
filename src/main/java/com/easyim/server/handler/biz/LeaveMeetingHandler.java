@@ -55,7 +55,7 @@ public class LeaveMeetingHandler extends SimpleChannelInboundHandler<LeaveMeetin
         ChannelGroup channelGroup = ServerSessionUtil.getMeetingChannel(meetingId);
         if (channelGroup == null) throw new EasyIMException(msg.getMessageId(), Constants.EasyIMError.MEETING_NO_EXIST);
         // 通知会议其他用户
-        LeaveMeetingResponseMessage message = new LeaveMeetingResponseMessage(msg.getMessageId(), nickname);
+        LeaveMeetingResponseMessage message = new LeaveMeetingResponseMessage(nickname);
         for (Channel channel : channelGroup) {
             channel.writeAndFlush(message);
         }

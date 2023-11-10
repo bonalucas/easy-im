@@ -65,7 +65,7 @@ public class HandShakeHandler extends SimpleChannelInboundHandler<HandShakeReque
             ChannelGroup channelGroup = ServerSessionUtil.getMeetingChannel(meetingID);
             assert channelGroup != null;
             for (Channel channel : channelGroup) {
-                channel.writeAndFlush(new LeaveMeetingResponseMessage(0L, nickname));
+                channel.writeAndFlush(new LeaveMeetingResponseMessage(nickname));
             }
         }
         log.debug("客户端 【{}】 断开连接", ctx.channel().remoteAddress());

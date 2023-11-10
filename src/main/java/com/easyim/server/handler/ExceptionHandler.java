@@ -1,12 +1,15 @@
 package com.easyim.server.handler;
 
 import com.easyim.comm.message.error.ErrorResponseMessage;
+import com.easyim.comm.message.meeting.LeaveMeetingResponseMessage;
 import com.easyim.common.Constants;
 import com.easyim.common.EasyIMException;
 import com.easyim.common.ServerSessionUtil;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.channel.group.ChannelGroup;
 import io.netty.util.AttributeKey;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -45,7 +48,17 @@ public class ExceptionHandler extends ChannelInboundHandlerAdapter {
         } else {
             // 系统异常关闭连接
             String meetingID = (String) ctx.channel().attr(AttributeKey.valueOf(Constants.AttributeKeyName.MEETING_ID)).get();
-            if (StringUtils.isNotEmpty(meetingID)) ServerSessionUtil.leaveMeeting(meetingID, ctx.channel());
+            String nickname = (String) ctx.channel().attr(AttributeKey.valueOf(Constants.AttributeKeyName.USER_NAME)).get();
+            if (StringUtils.isNotEmpty(meetingID)) {
+                // 移除会议缓存
+                ServerSessionUtil.leaveMeeting(meetingID, ctx.channel());
+                // 告知其他用户
+                ChannelGroup channelGroup = ServerSessionUtil.getMeetingChannel(meetingID);
+                assert channelGroup != null;
+                for (Channel channel : channelGroup) {
+                    channel.writeAndFlush(new LeaveMeetingResponseMessage(0L, nickname));
+                }
+            }
             log.error("客户端 【{}】 通信异常，断开连接 【cause：{}】", ctx.channel().remoteAddress(), cause.getMessage());
             ctx.close();
         }

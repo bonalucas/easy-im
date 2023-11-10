@@ -43,6 +43,7 @@ public class FileHandler extends SimpleChannelInboundHandler<FileRequestMessage>
         // 获取通道信息
         String meetingId = (String) ctx.channel().attr(AttributeKey.valueOf(Constants.AttributeKeyName.MEETING_ID)).get();
         String nickname = (String) ctx.channel().attr(AttributeKey.valueOf(Constants.AttributeKeyName.USER_NAME)).get();
+        if (meetingId == null || nickname == null) throw new EasyIMException(msg.getMessageId(), Constants.EasyIMError.USER_INFO_ERROR);
         // 通知所有人聊天消息
         ChannelGroup channelGroup = ServerSessionUtil.getMeetingChannel(meetingId);
         if (channelGroup == null) throw new EasyIMException(msg.getMessageId(), Constants.EasyIMError.MEETING_NO_EXIST);

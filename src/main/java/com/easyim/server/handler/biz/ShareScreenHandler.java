@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.easyim.comm.message.screen.ShareScreenRequestMessage;
 import com.easyim.comm.message.screen.ShareScreenResponseMessage;
 import com.easyim.common.Constants;
+import com.easyim.common.EasyIMException;
 import com.easyim.common.ServerSessionUtil;
 import com.easyim.pojo.MeetingDO;
 import io.netty.channel.Channel;
@@ -43,7 +44,9 @@ public class ShareScreenHandler extends SimpleChannelInboundHandler<ShareScreenR
         // 获取通道信息
         String meetingId = (String) ctx.channel().attr(AttributeKey.valueOf(Constants.AttributeKeyName.MEETING_ID)).get();
         String nickname = (String) ctx.channel().attr(AttributeKey.valueOf(Constants.AttributeKeyName.USER_NAME)).get();
+        if (meetingId == null || nickname == null) throw new EasyIMException(msg.getMessageId(), Constants.EasyIMError.USER_INFO_ERROR);
         // 获取会议信息
+        if (!ServerSessionUtil.isExist(meetingId)) throw new EasyIMException(msg.getMessageId(), Constants.EasyIMError.MEETING_NO_EXIST);
         MeetingDO meeting = ServerSessionUtil.getMeeting(meetingId);
         // 推送响应
         ChannelGroup channelGroup = meeting.getChannelGroup();

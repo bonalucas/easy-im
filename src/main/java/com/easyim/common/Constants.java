@@ -30,7 +30,8 @@ public class Constants {
      */
     public interface EasyIMError {
         String MEETING_CONFLICT = "【系统错误：会议冲突】";
-        String MEETING_NO_EXIST = "【会议异常：会议不存在】";
+        String MEETING_NO_EXIST = "【系统异常：会议不存在】";
+        String USER_INFO_ERROR = "【系统错误：用户未进入会议】";
     }
 
 }

@@ -25,31 +25,13 @@ public class ShareScreenResponseMessage extends Message {
      */
     private String meetingId;
 
-    /**
-     * 发起者判断
-     */
-    private boolean isShared;
-
     public ShareScreenResponseMessage() {
     }
 
-    public ShareScreenResponseMessage(String theme, String nickname, String meetingId, boolean isShared) {
+    public ShareScreenResponseMessage(String theme, String nickname, String meetingId) {
         this.theme = theme;
         this.nickname = nickname;
         this.meetingId = meetingId;
-        this.isShared = isShared;
-    }
-
-    public ShareScreenResponseMessage(long messageId) {
-        super.setMessageId(messageId);
-    }
-
-    public ShareScreenResponseMessage(long messageId, String theme, String nickname, String meetingId, boolean isShared) {
-        super.setMessageId(messageId);
-        this.theme = theme;
-        this.nickname = nickname;
-        this.meetingId = meetingId;
-        this.isShared = isShared;
     }
 
     public String getTheme() {
@@ -74,14 +56,6 @@ public class ShareScreenResponseMessage extends Message {
 
     public void setMeetingId(String meetingId) {
         this.meetingId = meetingId;
-    }
-
-    public boolean isShared() {
-        return isShared;
-    }
-
-    public void setShared(boolean shared) {
-        isShared = shared;
     }
 
     @Override

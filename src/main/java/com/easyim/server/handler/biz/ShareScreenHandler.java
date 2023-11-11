@@ -50,13 +50,9 @@ public class ShareScreenHandler extends SimpleChannelInboundHandler<ShareScreenR
         MeetingDO meeting = ServerSessionUtil.getMeeting(meetingId);
         // 推送响应
         ChannelGroup channelGroup = meeting.getChannelGroup();
-        ShareScreenResponseMessage message = new ShareScreenResponseMessage(msg.getMessageId(), meeting.getTheme(), nickname, meetingId, false);
+        ShareScreenResponseMessage message = new ShareScreenResponseMessage(meeting.getTheme(), nickname, meetingId);
         for (Channel channel : channelGroup) {
-            if (channel.id().equals(ctx.channel().id())) {
-                channel.writeAndFlush(new ShareScreenResponseMessage(msg.getMessageId(), meeting.getTheme(), nickname, meetingId, true));
-            } else {
-                channel.writeAndFlush(message);
-            }
+            if (!channel.id().equals(ctx.channel().id())) channel.writeAndFlush(message);
         }
     }
 

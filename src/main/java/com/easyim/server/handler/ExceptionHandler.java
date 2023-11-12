@@ -54,7 +54,7 @@ public class ExceptionHandler extends ChannelInboundHandlerAdapter {
                 ServerSessionUtil.leaveMeeting(meetingID, ctx.channel());
                 // 告知其他用户
                 ChannelGroup channelGroup = ServerSessionUtil.getMeetingChannel(meetingID);
-                assert channelGroup != null;
+                if (channelGroup == null) return;
                 for (Channel channel : channelGroup) {
                     channel.writeAndFlush(new LeaveMeetingResponseMessage(nickname));
                 }

@@ -100,6 +100,10 @@ public class ServerSessionUtil {
     public synchronized static void leaveMeeting(String meetingID, Channel channel){
         if (!meetingCache.containsKey(meetingID)) return;
         meetingCache.get(meetingID).getChannelGroup().remove(channel);
+        if (meetingCache.get(meetingID).getChannelGroup().size() == 0) {
+            System.out.println(meetingCache.get(meetingID).getChannelGroup().size());
+            closeMeeting(meetingID);
+        }
     }
 
 }

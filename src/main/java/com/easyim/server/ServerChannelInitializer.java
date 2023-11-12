@@ -40,6 +40,7 @@ public class ServerChannelInitializer extends ChannelInitializer<SocketChannel> 
         socketChannel.pipeline().addLast("File-Handler", FileHandler.getInstance());
         socketChannel.pipeline().addLast("ShareScreen-Handler", ShareScreenHandler.getInstance());
         socketChannel.pipeline().addLast("LeaveMeeting-Handler", LeaveMeetingHandler.getInstance());
+        socketChannel.pipeline().addLast("ExitScreen-Handler", ExitScreenHandler.getInstance());
         // 添加异常处理器
         socketChannel.pipeline().addLast("Exception-Handler", ExceptionHandler.getInstance());
     }

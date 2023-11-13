@@ -9,6 +9,11 @@ import com.easyim.comm.message.MessageTypeConstants;
 public class FileResponseMessage extends Message {
 
     /**
+     * 文件ID
+     */
+    private String fileId;
+
+    /**
      * 发送消息者昵称
      */
     private String nickname;
@@ -24,18 +29,39 @@ public class FileResponseMessage extends Message {
     private String mimeType;
 
     /**
-     * 文件二进制字节数组
+     * 分块文件字节数组
      */
     private byte[] file;
+
+    /**
+     * 分块序号
+     */
+    private int chunkNo;
+
+    /**
+     * 分块总数
+     */
+    private int chunkCount;
 
     public FileResponseMessage() {
     }
 
-    public FileResponseMessage(String nickname, String fileName, String mimeType, byte[] file) {
+    public FileResponseMessage(String fileId, String nickname, String fileName, String mimeType, byte[] file, int chunkNo, int chunkCount) {
+        this.fileId = fileId;
         this.nickname = nickname;
         this.fileName = fileName;
         this.mimeType = mimeType;
         this.file = file;
+        this.chunkNo = chunkNo;
+        this.chunkCount = chunkCount;
+    }
+
+    public String getFileId() {
+        return fileId;
+    }
+
+    public void setFileId(String fileId) {
+        this.fileId = fileId;
     }
 
     public String getNickname() {
@@ -68,6 +94,22 @@ public class FileResponseMessage extends Message {
 
     public void setFile(byte[] file) {
         this.file = file;
+    }
+
+    public int getChunkNo() {
+        return chunkNo;
+    }
+
+    public void setChunkNo(int chunkNo) {
+        this.chunkNo = chunkNo;
+    }
+
+    public int getChunkCount() {
+        return chunkCount;
+    }
+
+    public void setChunkCount(int chunkCount) {
+        this.chunkCount = chunkCount;
     }
 
     @Override

@@ -47,7 +47,7 @@ public class FileHandler extends SimpleChannelInboundHandler<FileRequestMessage>
         // 通知所有人聊天消息
         ChannelGroup channelGroup = ServerSessionUtil.getMeetingChannel(meetingId);
         if (channelGroup == null) throw new EasyIMException(msg.getMessageId(), Constants.EasyIMError.MEETING_NO_EXIST);
-        FileResponseMessage message = new FileResponseMessage(nickname, msg.getFileName(), msg.getMimeType(), msg.getFile());
+        FileResponseMessage message = new FileResponseMessage(msg.getFileId(), nickname, msg.getFileName(), msg.getMimeType(), msg.getFile(), msg.getChunkNo(), msg.getChunkCount());
         for (Channel channel : channelGroup) {
             if (!channel.id().equals(ctx.channel().id())) channel.writeAndFlush(message);
         }

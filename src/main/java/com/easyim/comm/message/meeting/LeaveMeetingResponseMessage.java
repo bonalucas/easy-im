@@ -1,5 +1,6 @@
 package com.easyim.comm.message.meeting;
 
+import com.dyuproject.protostuff.Tag;
 import com.easyim.comm.message.Message;
 import com.easyim.comm.message.MessageTypeConstants;
 
@@ -13,6 +14,7 @@ public class LeaveMeetingResponseMessage extends Message {
     /**
      * 退出用户昵称
      */
+    @Tag(2)
     private String nickname;
 
     public LeaveMeetingResponseMessage() {

@@ -1,5 +1,6 @@
 package com.easyim.comm.message.screen;
 
+import com.dyuproject.protostuff.Tag;
 import com.easyim.comm.message.Message;
 import com.easyim.comm.message.MessageTypeConstants;
 
@@ -13,16 +14,19 @@ public class ShareScreenResponseMessage extends Message {
     /**
      * 会议主题
      */
+    @Tag(2)
     private String theme;
 
     /**
      * 屏幕共享发起者
      */
+    @Tag(3)
     private String nickname;
 
     /**
      * 会议ID
      */
+    @Tag(4)
     private String meetingId;
 
     public ShareScreenResponseMessage() {

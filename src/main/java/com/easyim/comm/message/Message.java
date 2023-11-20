@@ -1,5 +1,6 @@
 package com.easyim.comm.message;
 
+import com.dyuproject.protostuff.Tag;
 import com.easyim.comm.message.chat.ChatRequestMessage;
 import com.easyim.comm.message.chat.ChatResponseMessage;
 import com.easyim.comm.message.error.ErrorResponseMessage;
@@ -28,6 +29,7 @@ public abstract class Message {
     /**
      * 消息全局ID
      */
+    @Tag(1)
     private Long messageId;
 
     /**

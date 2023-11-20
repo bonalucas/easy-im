@@ -1,5 +1,6 @@
 package com.easyim.comm.message.screen;
 
+import com.dyuproject.protostuff.Tag;
 import com.easyim.comm.message.Message;
 import com.easyim.comm.message.MessageTypeConstants;
 
@@ -13,6 +14,7 @@ public class ExitScreenResponseMessage extends Message {
     /**
      * 发送者昵称
      */
+    @Tag(2)
     private String nickname;
 
     public ExitScreenResponseMessage() {

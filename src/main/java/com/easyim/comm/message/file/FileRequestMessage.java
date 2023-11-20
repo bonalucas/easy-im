@@ -1,5 +1,6 @@
 package com.easyim.comm.message.file;
 
+import com.dyuproject.protostuff.Tag;
 import com.easyim.comm.message.Message;
 import com.easyim.comm.message.MessageTypeConstants;
 
@@ -13,31 +14,37 @@ public class FileRequestMessage extends Message {
     /**
      * 文件ID
      */
+    @Tag(2)
     private String fileId;
 
     /**
      * 文件名
      */
+    @Tag(3)
     private String fileName;
 
     /**
      * 文件类型
      */
+    @Tag(4)
     private String mimeType;
 
     /**
      * 分块文件字节数组
      */
+    @Tag(5)
     private byte[] file;
 
     /**
      * 分块序号
      */
+    @Tag(6)
     private int chunkNo;
 
     /**
      * 分块总数
      */
+    @Tag(7)
     private int chunkCount;
 
     public FileRequestMessage() {
